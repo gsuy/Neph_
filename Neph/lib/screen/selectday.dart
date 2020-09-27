@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neph/screen/autogen.dart';
+import 'package:neph/screen/autogenQ3.dart';
 import 'package:neph/screen/createplan.dart';
 import 'package:neph/screen/plansche.dart';
 import 'package:neph/screen/signin.dart';

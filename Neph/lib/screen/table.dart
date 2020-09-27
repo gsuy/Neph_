@@ -1,16 +1,22 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:neph/screen/exercise.dart';
 import 'package:neph/screen/plansuccess.dart';
 
 class Tableex extends StatefulWidget {
   @override
   _TableexState createState() => _TableexState();
 }
+class Data {
+  String text;
+  Data({this.text});
+}
 
 class _TableexState extends State<Tableex> {
   //Medthod
 
+  
   Widget returnpage() {
     return Container(
       child: Align(
@@ -160,10 +166,19 @@ class _TableexState extends State<Tableex> {
       ),
     );
   }
-
+  final data = Data(
+   text: 'name');
+  
   Widget exercisebackground(String name, String status, String lbs, String rep,
       String sets, String namepic) {
-    return Container(
+        
+    return GestureDetector( 
+        onTap: (){
+          Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => Exercise(data : name)));
+        },child: Container(
         width: 300,
         height: 175,
         decoration: BoxDecoration(
@@ -262,7 +277,7 @@ class _TableexState extends State<Tableex> {
               ],
             )
           ],
-        ));
+        )));
   }
 
   Widget imageex(String namepic) {
