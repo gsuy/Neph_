@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neph/screen/autogen.dart';
+import 'package:neph/screen/autogenQ1.dart';
 import 'package:neph/screen/selectday.dart';
 
 class Plan extends StatefulWidget {
@@ -62,7 +63,7 @@ class _PlanState extends State<Plan> {
           ),
           onPressed: () {
             MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Auto());
+                MaterialPageRoute(builder: (BuildContext context) => Autoq1());
             Navigator.of(context).push(materialPageRoute);
           },
           shape: new RoundedRectangleBorder(

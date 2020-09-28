@@ -33,6 +33,10 @@ dependencies:
   firebase_database: ^4.0.0
   adobe_xd: ^1.0.0+1
   youtube_player_flutter: ^7.0.0+7
+  camera: ^0.5.2+1
+  image_picker: ^0.6.3+1
+  image_cropper: ^1.2.0
+  open_file: ^3.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
