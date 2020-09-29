@@ -8,6 +8,8 @@ import 'package:neph/screen/profile.dart';
 import 'package:neph/screen/signin.dart';
 import 'package:neph/screen/stats.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -26,20 +28,46 @@ class _HomeState extends State<Home> {
 
   Future<void> readAllData()async{
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference collectionReference = firestore.collection('Users');
+    // final dbRef = FirebaseDatabase.instance.reference().child('Users').child('Schedule').snapshots();
+    // AsyncSnapshot<DataSnapshot> snapshot = dbRef;
+    // AsyncSnapshot<DataSnapshot> snapshotttt = dbRef;
+    CollectionReference collectionReference = firestore.collection('Users').doc('SsAes6slcuBjeetZ9hyr').collection('Schedule');
+    
+    // List<String> day = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    // for (var i = 0; i < 20; i++) {
+    //   firestore.collection('Users').doc(i.toString()).set({
+    //     'Age':i,
+    //     'Email': 'jonh_doe'+i.toString()+'@hotmail.com',
+    //     'Goal': 'Build muscle',
+    //     'Height': 165,
+    //     'Weight': 50,
+    //     'Name':'Jonh Doe'+i.toString(),
+    //     'Password':'abc123',
+    //     'Sex':'Male',
+    //     'haveSchedule':true
+    //   });
+    //   for (var ii = 0; ii < 7; ii++) {
+    //     firestore.collection('Users').doc(i.toString()).collection('Schedule').doc(day[ii]).set({'isWorkout_Day': true});
+    //   }
+    // }
+      
     await collectionReference.snapshots().listen((res) {
       List<DocumentSnapshot> snapshots = res.docs;
+      // List<CollectionReference> ss = res.docs;
+
       // List<CollectionReference> test = res.
+      // print("test ${dbRef.once().data.value}");
       print("Start..................");
       for (var snapshot in snapshots) {
         // print('snapshot $snapshot');
         // print("Name = ${snapshot.data()}");
-        if(snapshot.get('ID')=="neph_1"){
-          print("have = ${snapshot.get('haveSchedule')}");
-        }
+        // if(snapshot.get('ID')=="neph_1"){
+          print("have = ${snapshot.get('Day')}");
+        // }
         // list.add(snapshot.get('Name'));
       }
-    });
+      });
+    // }
   }
   
   Widget iconprofile() {
