@@ -5,6 +5,9 @@ import 'package:neph/screen/exercise.dart';
 import 'package:neph/screen/plansuccess.dart';
 
 class Tableex extends StatefulWidget {
+  // final List<bool> isWorkoutDay;
+
+  // const Tableex(this.isWorkoutDay);
   @override
   _TableexState createState() => _TableexState();
 }
@@ -14,9 +17,10 @@ class Data {
 }
 
 class _TableexState extends State<Tableex> {
+  // List<bool> isWorkoutDay;
+  // _TableexState({this.isWorkoutDay});
   //Medthod
 
-  
   Widget returnpage() {
     return Container(
       child: Align(

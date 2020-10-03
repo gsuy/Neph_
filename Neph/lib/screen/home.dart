@@ -8,7 +8,9 @@ import 'package:neph/screen/plansuccess.dart';
 import 'package:neph/screen/profile.dart';
 import 'package:neph/screen/signin.dart';
 import 'package:neph/screen/stats.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:neph/screen/backend.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -16,32 +18,69 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //Medthod
+  // List<bool> isWorkout = [false,false,false,false,false,false,false];
+  // List<String> day = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   bool check = true;
+  //Medthod
   @override
   void initState() {
     // print("test : $dbRef");
     super.initState();
-    readAllData();
+    id = '2';
+    print('Connect main!!!.');
+    print('id ====>>>> $id');
+    loadisWorkoutDay();
   }
 
-  Future<void> readAllData()async{
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference collectionReference = firestore.collection('Users');
-    await collectionReference.snapshots().listen((res) {
-      List<DocumentSnapshot> snapshots = res.docs;
+  // Future<void> readAllData()async{
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   // CollectionReference collectionReference = firestore.collection('Users');
+  //   // DocumentReference documentReference = firestore.collection('Users').doc('1');
+
+  //   for (var i = 0; i < 7; i++) {
+  //     await firestore.collection('Users').doc('2').collection('Schedule').doc(day[i]).get().then((value) => isWorkout[i] = value.get('isWorkout_Day'));  
+  //   }
+    // print('====>>>>>>>>>>> $isWorkout');
+    // firestore.collection('Users').get().then((value) => value.docs.forEach((element) { 
+    //   var aa = element.data();
+    //   print('test $aa');
+    //   print('type ${aa.runtimeType}');
+    //   }));
+
+    // var aa = firestore.collection('Users').doc('2').get(); //get data in one doc
+    // aa.then((value) => print('tttttttttttttttttttt     ${value.get('Name')}'));
+
+    // var aa = firestore.collection('Users').doc('2').get(); //get data in all doc
+    // aa.then((value) => print(value.data()));
+
+    // firestore.collection("Users")  //update data or add if change 'update' to 'set'
+    //   .doc("2").collection('Schedule').doc('Monday')
+    //   .update({
+    //     'isWorkout_Day': false
+    //   });
+
+    // firestore.collection("Users").doc('2').delete();
+
+
+
+    // check = collectionReference.doc('1')
+    // await documentReference.snapshots().listen((res) {
+      // List<DataSnapshot> snapshots = res.;
       // List<CollectionReference> test = res.
-      print("Start..................");
-      for (var snapshot in snapshots) {
-        // print('snapshot $snapshot');
-        // print("Name = ${snapshot.data()}");
-        if(snapshot.get('ID')=="neph_1"){
-          print("have = ${snapshot.get('haveSchedule')}");
-        }
-        // list.add(snapshot.get('Name'));
-      }
-    });
-  }
+      // print("Start..................");
+      // print('Age  ${res.get('Age')}');
+      // print('Type ${res.runtimeType}'); //DocumentSnapshot
+      // for (var snapshot in res.) {
+      //   // print('snapshot $snapshot');
+      //   // print("Name = ${snapshot.data()}");
+      //   if(snapshot.get('ID')=="1"){
+      //     print("have = ${snapshot.get('haveSchedule')}");
+      //     check = 
+      //   }
+      //   // list.add(snapshot.get('Name'));
+      // }
+    // });
+  // }
   
   Widget iconprofile() {
     return Column(

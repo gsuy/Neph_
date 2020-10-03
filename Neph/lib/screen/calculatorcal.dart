@@ -12,6 +12,7 @@ class Calculate extends StatefulWidget {
 }
 
 class _CalculateState extends State<Calculate> {
+  // List<bool> isWorkout = [false,false,false,false,false,false,false];
   //Medthod
   TextEditingController goal = new TextEditingController();
   TextEditingController food = new TextEditingController();

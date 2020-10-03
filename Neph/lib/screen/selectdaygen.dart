@@ -478,10 +478,10 @@ class _DaygenState extends State<Daygen> {
             ),
             color: Colors.teal.shade900,
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Sucplan()));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (BuildContext context) => Sucplan()));
             }),
       ),
     );

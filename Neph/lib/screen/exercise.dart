@@ -25,7 +25,8 @@ class Exercise extends StatelessWidget {
       ));
 
   //Medthod
-  String data;
+  final String data;
+  // final List<bool> isWorkoutDay;
   Exercise({this.data});
   Widget showAppName() {
     return Text(

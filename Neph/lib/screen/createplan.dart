@@ -1,15 +1,31 @@
 import 'dart:ui';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:neph/screen/signup2.dart';
+import 'package:neph/screen/home.dart';
+import 'package:neph/screen/backend.dart';
 
-class Createplan extends StatefulWidget {
+class Createplan extends StatefulWidget{
   @override
   _CreateplanState createState() => _CreateplanState();
 }
 
 class _CreateplanState extends State<Createplan> {
+  // List<String> workoutDay = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  // List<bool> isWorkoutDay = [false,false,false,false,false,false,false]; //monday , ... , sunday
   //Medthod
+  
+  @override
+  void initState() {
+    super.initState();
+    // loadData().then((value){setState(() {});});
+  }
+
+  // Future<void> loadData()async{
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //     for (var i = 0; i < 7; i++) {
+  //       await firestore.collection('Users').doc('2').collection('Schedule').doc(workoutDay[i]).get().then((value) => isWorkoutDay[i] = value.get('isWorkout_Day'));
+  //   }
+  // }
 
   Widget topicName() {
     return Text(
@@ -300,6 +316,14 @@ class _CreateplanState extends State<Createplan> {
         ]));
   }
 
+  Widget show(String day, String date, String month, bool isWorkout){
+    if(isWorkout == true){
+        return blueboxadd(day, date, month);
+    }else{
+        return bluebox(day, date, month);
+    }
+  }
+
   Widget finishButton() {
     return Container(
       child: RaisedButton(
@@ -315,7 +339,7 @@ class _CreateplanState extends State<Createplan> {
           ),
           onPressed: () {
             MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Signup2());
+                MaterialPageRoute(builder: (BuildContext context) => Home());
             Navigator.of(context).push(materialPageRoute);
           },
           shape: new RoundedRectangleBorder(
@@ -352,23 +376,31 @@ class _CreateplanState extends State<Createplan> {
                   SizedBox(
                     height: 10,
                   ),
-                  Center(child: bluebox('Mon', '8\n', 'Dec')),
+                  Center(child: show('Mon', '8\n', 'Dec',isWorkoutDay[0])),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: blueboxadd('Tue', '9\n', 'Dec')),
+                  Center(child: show('Tue', '9\n', 'Dec',isWorkoutDay[1])),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: bluebox('Wed', '10\n', 'Dec')),
+                  Center(child: show('Wed', '10\n', 'Dec',isWorkoutDay[2])),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: bluebox('Thur', '11\n', 'Dec')),
+                  Center(child: show('Thur', '11\n', 'Dec',isWorkoutDay[3])),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: blueboxadd('Fri', '12\n', 'Dec')),
+                  Center(child: show('Fri', '12\n', 'Dec',isWorkoutDay[4])),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(child: show('Sat', '13\n', 'Dec',isWorkoutDay[5])),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(child: show('Sun', '14\n', 'Dec',isWorkoutDay[6])),
                 ],
               ),
             ),
