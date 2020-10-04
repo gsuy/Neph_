@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:neph/screen/createtable.dart';
 import 'package:neph/screen/home.dart';
 import 'package:neph/screen/backend.dart';
 
@@ -308,10 +309,10 @@ class _CreateplanState extends State<Createplan> {
               ),
               color: Colors.teal.shade900,
               onPressed: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (BuildContext context) => Profile()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => Createtable()));
               }),
         ]));
   }
