@@ -30,6 +30,9 @@ class _HomeState extends State<Home> {
     print('Connect main!!!.');
     print('id ====>>>> $id');
     loadisWorkoutDay();
+    // if(workoutList.length==0){
+      loadWorkoutList();
+    // }
   }
 
   // Future<void> readAllData()async{

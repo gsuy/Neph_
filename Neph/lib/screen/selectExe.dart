@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:neph/screen/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Select extends StatefulWidget{
@@ -10,7 +12,27 @@ class _SelectState extends State<Select>{
   final formKey = GlobalKey<FormState>();
   List<String> list = [];
   Set<String> show = new Set();
+  // Map<List<String>,List<String>> show;
+  List<Map<List<String>,List<String>>> ss;
   final input = TextEditingController();
+
+@override
+void initState() {
+  super.initState();
+  // loadWorkoutList().then((value){setState(() {});});
+  // workoutList.add(new Category(snapshot.get('Name'), snapshot.get('Image'), snapshot.get('Description')));
+  fetchData();
+}
+
+Future<void> fetchData() => Future.delayed(Duration(seconds: 1), () {
+      if(workoutList.length!=0){
+        setState(() {
+
+        });
+      }else{
+        fetchData();
+      }
+      });
 
 Widget searchPart(){
     return Form(key: formKey,
@@ -44,15 +66,15 @@ Widget searchPart(){
                 labelStyle: TextStyle(color: const Color(0xff2aafaf)),
               ),
               onChanged: (value){
-                  show.clear();
-                  for(var i = 0; i < list.length; i++){
-                    if(list[i].toLowerCase().contains(input.text.toLowerCase())){
-                      show.add(list[i]);
-                   }
-                  }
-                  setState(() {
+                  // show.clear();
+                  // for(var i = 0; i < list.length; i++){
+                  //   if(list[i].toLowerCase().contains(input.text.toLowerCase())){
+                  //     show.add(list[i]);
+                  //  }
+                  // }
+                  // setState(() {
                     
-                  });
+                  // });
               },
               // onSubmitted: (value){
               // },
@@ -61,54 +83,94 @@ Widget searchPart(){
     );
   }
 
-Widget showView(){
-    // return Expanded(
-    //   child: ListView.builder(
-    //       itemCount: show.length,
-    //       itemBuilder: (BuildContext context, int index){
-    //         return 
-    //         Container(
-    //           height: 50,
-    //           width: 50,
-    //           child: 
-    //           Center(child: Text(show.toList()[index],style: TextStyle(fontSize: 15)))
-    //         );
-    //   })
-    // );
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+Widget tip(String des){
+  return Align(
+    alignment: Alignment.topRight,
+    child: Tooltip(
+                  child: IconButton(icon: Icon(Icons.info,size: 30,),onPressed: (){}),
+                  message: des,
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20),
+                  showDuration: Duration(seconds: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.teal[100].withOpacity(0.9),
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  ),
+                  textStyle: TextStyle(color: Colors.black),
+                  // preferBelow: true,
+                  verticalOffset: 20,
+                )
+  );
+}
 
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                width:150,
-                height:150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.white
+  Widget showView(){
+    return Expanded(
+      child: ListView.builder(
+          itemCount: (workoutList.length/2).floor(),
+          itemBuilder: (BuildContext context, int index){
+            return 
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: 10.0,
                 ),
-              ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      width:150,
+                      height:150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Colors.white,
+                        image:  DecorationImage(
+                          image: NetworkImage(workoutList[index*2][1]),
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                      child: Column(children: [
+                        tip(workoutList[index*2][2]),
+                        SizedBox(
+                          height: 60.0,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(workoutList[index*2][0],style: TextStyle(backgroundColor: Colors.white, fontWeight: FontWeight.w700,fontSize: 13,color: Colors.deepOrangeAccent)),
+                        ),
+                        ]),
+                    ),
 
-               SizedBox(
-                width: 30.0,
-              ),
+                    SizedBox(
+                      width: 30.0,
+                    ),
 
-              Container(
-                width:150,
-                height:150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.white
-                ),
-              ),
-
-            ]),
-
-        ],
-      ),
+                    Container(
+                      width:150,
+                      height:150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Colors.white,
+                        image: DecorationImage(
+                          image: NetworkImage(workoutList[(index*2)+1][1]),
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                      child: Column(children: [
+                        tip(workoutList[(index*2)+1][2]),
+                        SizedBox(
+                          height: 60.0,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(workoutList[(index*2)+1][0],style: TextStyle(backgroundColor: Colors.white,fontWeight: FontWeight.w700,fontSize: 13,color: Colors.deepOrangeAccent)),
+                        ),
+                        ]),
+                    ),
+                  ])
+              ],
+            );
+      })
     );
   }
 
@@ -136,7 +198,7 @@ Widget showView(){
   }
 
 
-Widget back(){
+Widget backButton(){
     return Container(
       child:
       Row(
@@ -148,9 +210,7 @@ Widget back(){
               color: Colors.white,
               size: 20
             ),
-              onPressed: (){
-                int a = 0;
-              }),
+              onPressed: (){}),
           
           SizedBox(
             width: 30.0,
@@ -165,28 +225,33 @@ Widget back(){
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff163737),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-              mainAxisSize: MainAxisSize.min, children: <Widget>[
+      body: FutureBuilder(
+        future: loadWorkoutList(),
+        builder: (context, snapshot){
+          // print('asdadasd ====>>>>>> ${snapshot.data}');
+          if(snapshot.hasData){
+            return SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                    mainAxisSize: MainAxisSize.min, children: <Widget>[
 
-              SizedBox(
-                height: 10.0,
-              ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
 
-              back(),
+                    backButton(),
 
-              // SizedBox(
-              //   height: 5.0,
-              // ),
-
-              // namePage(),
-
-              SizedBox(
-                  height: 30.0,
-                ),
-              Center(child: foodPart()),
-            ])),
+                    SizedBox(
+                        height: 30.0,
+                      ),
+                    Center(child: foodPart()),
+                  ])),
+            );
+          }else{
+            return Center(child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
