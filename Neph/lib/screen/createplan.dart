@@ -1,20 +1,23 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:neph/screen/autogenQ1.dart';
 import 'package:neph/screen/createtable.dart';
 import 'package:neph/screen/home.dart';
 import 'package:neph/screen/backend.dart';
 
-class Createplan extends StatefulWidget{
+class Createplan extends StatefulWidget {
   @override
   _CreateplanState createState() => _CreateplanState();
 }
 
+enum WidgetMarker { add, rest }
+
 class _CreateplanState extends State<Createplan> {
   // List<String> workoutDay = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  // List<bool> isWorkoutDay = [false,false,false,false,false,false,false]; //monday , ... , sunday
+  List<bool> newselectday = isWorkoutDay; //monday , ... , sunday
   //Medthod
-  
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +31,16 @@ class _CreateplanState extends State<Createplan> {
   //   }
   // }
 
+//   Widget getCustomContainer(String day, String date, String month,bool isWorkout) {
+//   switch (selectedWidgetMarker) {
+//     case WidgetMarker.add :
+//       return show(day,date,month,!isWorkout);
+//     case WidgetMarker.rest:
+//       return show(day,date,month,!isWorkout);
+//   }
+//   return show(day,date,month,true);
+// }
+
   Widget topicName() {
     return Text(
       'Plan Schedule',
@@ -39,102 +52,6 @@ class _CreateplanState extends State<Createplan> {
       ),
       textAlign: TextAlign.left,
     );
-  }
-
-  Widget fullnamefield() {
-    return Container(
-        width: 300.0,
-        child: new Theme(
-          data: new ThemeData(
-            primaryColor: Colors.white,
-            primaryColorDark: Colors.white,
-          ),
-          child: new TextField(
-            decoration: new InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 3.0),
-              ),
-              labelText: 'Full name',
-              labelStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-        ));
-  }
-
-  Widget emailfield() {
-    return Container(
-        width: 300.0,
-        child: new Theme(
-          data: new ThemeData(
-            primaryColor: Colors.white,
-            primaryColorDark: Colors.white,
-          ),
-          child: new TextField(
-            decoration: new InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 3.0),
-              ),
-              labelText: 'Email',
-              labelStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-        ));
-  }
-
-  Widget passwordfield() {
-    return Container(
-        width: 300.0,
-        child: new Theme(
-          data: new ThemeData(
-            primaryColor: Colors.white,
-            primaryColorDark: Colors.white,
-          ),
-          child: new TextField(
-            decoration: new InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 3.0),
-              ),
-              labelText: 'Password',
-              labelStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-        ));
-  }
-
-  Widget comfirmpasswordfield() {
-    return Container(
-        width: 300.0,
-        child: new Theme(
-          data: new ThemeData(
-            primaryColor: Colors.white,
-            primaryColorDark: Colors.white,
-          ),
-          child: new TextField(
-            decoration: new InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 3.0),
-              ),
-              labelText: 'Confirm Password',
-              labelStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-        ));
   }
 
   Widget whitebackground(String date, String month) {
@@ -225,10 +142,10 @@ class _CreateplanState extends State<Createplan> {
     );
   }
 
-  Widget bluebox(String day, String date, String month) {
+  Widget bluebox(String day, String date, String month, int index) {
     return Container(
         width: 327.0,
-        height: 150.0,
+        height: 170.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
           color: const Color(0xffd7f0f0),
@@ -244,9 +161,7 @@ class _CreateplanState extends State<Createplan> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SizedBox(
-                width: 10.0,
-              ),
+              
               whitebackground2(day),
               SizedBox(
                 height: 5.0,
@@ -257,7 +172,10 @@ class _CreateplanState extends State<Createplan> {
           SizedBox(
             width: 60.0,
           ),
-          Text(
+          Column(
+            children: [SizedBox(height: 55,),
+              Align(alignment: Alignment.center,
+                              child: Text(
             'Rest',
             style: TextStyle(
               fontFamily: 'Segoe UI',
@@ -266,13 +184,36 @@ class _CreateplanState extends State<Createplan> {
             ),
             textAlign: TextAlign.left,
           ),
+              ),
+            ],
+          ),SizedBox(width: 50,),Column(
+            children: [
+              Align( alignment: Alignment.topRight,
+                                  child: IconButton(
+                        icon: Icon(
+                          Icons.sync,
+                          size: 30,
+                          color: Colors.red.shade600,
+                        ),
+                        color: Colors.teal.shade900,
+                        onPressed: () {
+                          setState(() {
+                            newselectday[index] = !newselectday[index];
+                          });
+                        }),
+                  ),
+            ],
+          )
+          
+          
+          
         ]));
   }
 
-  Widget blueboxadd(String day, String date, String month) {
+  Widget blueboxadd(String day, String date, String month, int index) {
     return Container(
         width: 327.0,
-        height: 150.0,
+        height: 170.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
           color: const Color(0xffd7f0f0),
@@ -288,9 +229,6 @@ class _CreateplanState extends State<Createplan> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SizedBox(
-                width: 10.0,
-              ),
               whitebackground2(day),
               SizedBox(
                 height: 5.0,
@@ -301,27 +239,53 @@ class _CreateplanState extends State<Createplan> {
           SizedBox(
             width: 60.0,
           ),
-          IconButton(
-              icon: Icon(
-                Icons.add,
-                size: 30,
-                color: Colors.black,
+          
+          Column(
+            children: [SizedBox(height: 55,),
+              Align(alignment: Alignment.center,
+                              child: IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      size: 30,
+                      color: Colors.black,
+                    ),
+                    color: Colors.teal.shade900,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => Createtable()));
+                    }),
               ),
-              color: Colors.teal.shade900,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Createtable()));
-              }),
+            ],
+          ),SizedBox(width: 50,),Column(
+            children: [
+              Align( alignment: Alignment.topRight,
+                                  child: IconButton(
+                        icon: Icon(
+                          Icons.sync,
+                          size: 30,
+                          color: Colors.greenAccent.shade700,
+                        ),
+                        color: Colors.teal.shade900,
+                        onPressed: () {
+                          setState(() {
+                            newselectday[index] = !newselectday[index];
+                          });
+                        }),
+                  ),
+            ],
+          ),
+
         ]));
   }
 
-  Widget show(String day, String date, String month, bool isWorkout){
-    if(isWorkout == true){
-        return blueboxadd(day, date, month);
-    }else{
-        return bluebox(day, date, month);
+  Widget show(
+      String day, String date, String month, bool isWorkout, int index) {
+    if (isWorkout == true) {
+      return blueboxadd(day, date, month, index);
+    } else {
+      return bluebox(day, date, month, index);
     }
   }
 
@@ -348,6 +312,32 @@ class _CreateplanState extends State<Createplan> {
     );
   }
 
+  Widget autoButton() {
+    return Container(
+      width: 250,
+      height: 40,
+      child: RaisedButton(
+          color: Colors.red,
+          child: Text(
+            'Auto generate',
+            style: TextStyle(
+              fontFamily: 'Segoe UI',
+              fontSize: 20,
+              color: Colors.white,
+            ),
+            textAlign: TextAlign.left,
+          ),
+          onPressed: () {
+            MaterialPageRoute materialPageRoute =
+                MaterialPageRoute(builder: (BuildContext context) => Autoq1());
+            Navigator.of(context).push(materialPageRoute);
+          },
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0))),
+    );
+  }
+
+  WidgetMarker selectedWidgetMarker = WidgetMarker.rest;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -377,31 +367,36 @@ class _CreateplanState extends State<Createplan> {
                   SizedBox(
                     height: 10,
                   ),
-                  Center(child: show('Mon', '8\n', 'Dec',isWorkoutDay[0])),
+                  autoButton(),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: show('Tue', '9\n', 'Dec',isWorkoutDay[1])),
+                  Center(child: show('Mon', '8\n', 'Dec', newselectday[0], 0)),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: show('Wed', '10\n', 'Dec',isWorkoutDay[2])),
+                  Center(child: show('Tue', '9\n', 'Dec', newselectday[1], 1)),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: show('Thur', '11\n', 'Dec',isWorkoutDay[3])),
+                  Center(child: show('Wed', '10\n', 'Dec', newselectday[2], 2)),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: show('Fri', '12\n', 'Dec',isWorkoutDay[4])),
+                  Center(
+                      child: show('Thur', '11\n', 'Dec', newselectday[3], 3)),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: show('Sat', '13\n', 'Dec',isWorkoutDay[5])),
+                  Center(child: show('Fri', '12\n', 'Dec', newselectday[4], 4)),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: show('Sun', '14\n', 'Dec',isWorkoutDay[6])),
+                  Center(child: show('Sat', '13\n', 'Dec', newselectday[5], 5)),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(child: show('Sun', '14\n', 'Dec', newselectday[6], 6)),
                 ],
               ),
             ),
