@@ -11,35 +11,16 @@ class Createplan extends StatefulWidget {
   _CreateplanState createState() => _CreateplanState();
 }
 
-enum WidgetMarker { add, rest }
+// enum WidgetMarker { add, rest }
 
 class _CreateplanState extends State<Createplan> {
-  // List<String> workoutDay = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   List<bool> newselectday = isWorkoutDay; //monday , ... , sunday
+  
   //Medthod
-
   @override
   void initState() {
     super.initState();
-    // loadData().then((value){setState(() {});});
   }
-
-  // Future<void> loadData()async{
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //     for (var i = 0; i < 7; i++) {
-  //       await firestore.collection('Users').doc('2').collection('Schedule').doc(workoutDay[i]).get().then((value) => isWorkoutDay[i] = value.get('isWorkout_Day'));
-  //   }
-  // }
-
-//   Widget getCustomContainer(String day, String date, String month,bool isWorkout) {
-//   switch (selectedWidgetMarker) {
-//     case WidgetMarker.add :
-//       return show(day,date,month,!isWorkout);
-//     case WidgetMarker.rest:
-//       return show(day,date,month,!isWorkout);
-//   }
-//   return show(day,date,month,true);
-// }
 
   Widget topicName() {
     return Text(
@@ -254,7 +235,7 @@ class _CreateplanState extends State<Createplan> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => Createtable()));
+                              builder: (BuildContext context) => Createtable(day)));
                     }),
               ),
             ],
@@ -303,6 +284,15 @@ class _CreateplanState extends State<Createplan> {
             textAlign: TextAlign.left,
           ),
           onPressed: () {
+            isWorkoutDay = newselectday;
+            setisWorkoutDay();
+            workoutListday = newWorkoutListday;
+            newWorkoutListday = [];
+            setworkoutListday();
+            resetWorkoulist();
+            workoutListday = newWorkoutListday;
+            setworkoutListday();
+            Navigator.popUntil(context, (route) => false);
             MaterialPageRoute materialPageRoute =
                 MaterialPageRoute(builder: (BuildContext context) => Home());
             Navigator.of(context).push(materialPageRoute);
@@ -337,7 +327,7 @@ class _CreateplanState extends State<Createplan> {
     );
   }
 
-  WidgetMarker selectedWidgetMarker = WidgetMarker.rest;
+  // WidgetMarker selectedWidgetMarker = WidgetMarker.rest;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -367,7 +357,7 @@ class _CreateplanState extends State<Createplan> {
                   SizedBox(
                     height: 10,
                   ),
-                  autoButton(),
+                  if(user['haveSchedule'] == true) autoButton(),
                   SizedBox(
                     height: 20,
                   ),

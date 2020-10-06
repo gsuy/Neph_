@@ -1,3 +1,4 @@
+// import 'dart:html';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:neph/screen/createplan.dart';
@@ -19,6 +20,7 @@ class _SucplanState extends State<Sucplan> {
   @override
   void initState() {
     super.initState();
+    newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
     // loadisWorkoutDay().then((value){setState(() {});});
   }
 
@@ -168,8 +170,9 @@ class _SucplanState extends State<Sucplan> {
           onTap: () {
             if(type=='Exercise'){
               MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Tableex());
+                MaterialPageRoute(builder: (BuildContext context) => Tableex(day));
             Navigator.of(context).push(materialPageRoute);
+            // Navigator.of(context).pop();
             }
           },
         ),
@@ -195,6 +198,7 @@ class _SucplanState extends State<Sucplan> {
           ),
           color: Colors.teal.shade900,
           onPressed: () {
+            Navigator.popUntil(context, (route) => false);
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) => Home()));
           }),
@@ -210,12 +214,18 @@ class _SucplanState extends State<Sucplan> {
             color: Colors.black,
           ),
           color: Colors.teal.shade900,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => Createplan()));
-          }),
+          onPressed: () async{
+                bool reset = await Navigator.push(
+                    context,
+                    MaterialPageRoute<bool>(
+                        builder: (BuildContext context) => Createplan()));
+                // print('reset====>>>>$reset');
+                if(reset==null){
+                  setState(() {
+                    newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
+                  });
+                }
+              }),
     );
   }
 

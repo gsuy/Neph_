@@ -3,23 +3,57 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:neph/screen/exercise.dart';
 import 'package:neph/screen/plansuccess.dart';
+import 'package:neph/screen/backend.dart';
 
 class Tableex extends StatefulWidget {
   // final List<bool> isWorkoutDay;
-
+  final String day_;
+  Tableex(this.day_);
   // const Tableex(this.isWorkoutDay);
   @override
-  _TableexState createState() => _TableexState();
+  _TableexState createState() => _TableexState(thisDay: day_);
 }
+// @protected
 class Data {
   String text;
-  Data({this.text});
+  String dayExe;
+  Data({this.text,this.dayExe});
 }
 
 class _TableexState extends State<Tableex> {
-  // List<bool> isWorkoutDay;
-  // _TableexState({this.isWorkoutDay});
+  String thisDay;
+  _TableexState({this.thisDay});
+  List<String> dayOf = ['Mon','Tue','Wed','Thur','Fri','Sat','Sun'];
+  int indexDay;
+  Map<String,String> link = new Map();
+  List<List<dynamic>> todayWorkout;
+  // List<String> test = ['Brench Press','Leg Press','Leg Press','Leg Press','Leg Press','Leg Press','Leg Press','Leg Press','Leg Press','Leg Press','Leg Press','Leg Press'];
   //Medthod
+
+  @override
+  void initState() {
+    super.initState();
+    // Data data = Data(text: 'name',dayExe: thisDay);
+
+    // link['Name'] = '3';
+    // print('asdsad ====>>> $link');
+
+    for (var i = 0; i < dayOf.length ;i++) {
+      if(dayOf[i] == thisDay){
+        indexDay = i;
+      }
+    }
+    
+    todayWorkout = workoutListday[indexDay];
+    link = new Map();
+
+    for(var ii = 0; ii < todayWorkout.length; ii++)
+      for (var j = 0; j < workoutList.length; j++) {
+        if(todayWorkout[ii][0] == workoutList[j][0]){
+          link[workoutList[j][0]] = workoutList[j][1];
+        }
+      }
+  }
 
   Widget returnpage() {
     return Container(
@@ -33,10 +67,7 @@ class _TableexState extends State<Tableex> {
             ),
             color: Colors.teal.shade900,
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Sucplan()));
+              Navigator.pop(context);
             }),
       ),
     );
@@ -170,20 +201,19 @@ class _TableexState extends State<Tableex> {
       ),
     );
   }
-  final data = Data(
-   text: 'name');
+  
   
   Widget exercisebackground(String name, String status, String lbs, String rep,
-      String sets, String namepic) {
+      String sets, String linkpic) {
         
     return GestureDetector( 
         onTap: (){
           Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => Exercise(data : name)));
+                        builder: (BuildContext context) => Exercise(name : name,dayExe : thisDay)));
         },child: Container(
-        width: 300,
+        width: 327,
         height: 175,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(21.0),
@@ -204,17 +234,17 @@ class _TableexState extends State<Tableex> {
                   padding: const EdgeInsets.only(left: 20, right: 50, top: 13),
                   child: exercisename(name),
                 ),
-                Text(
-                  status,
-                  style: TextStyle(
-                    fontFamily: 'Segoe UI',
-                    fontSize: 18,
-                    color: const Color(0x7d394548),
-                    fontWeight: FontWeight.w700,
-                    height: 1.8461538461538463,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                // Text(
+                //   status,
+                //   style: TextStyle(
+                //     fontFamily: 'Segoe UI',
+                //     fontSize: 18,
+                //     color: const Color(0x7d394548),
+                //     fontWeight: FontWeight.w700,
+                //     height: 1.8461538461538463,
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
               ],
             ),
             SizedBox(
@@ -222,7 +252,7 @@ class _TableexState extends State<Tableex> {
             ),
             Row(
               children: [
-                imageex(namepic),
+                imageex(linkpic),
                 Column(
                   children: [
                     Row(
@@ -284,11 +314,11 @@ class _TableexState extends State<Tableex> {
         )));
   }
 
-  Widget imageex(String namepic) {
+  Widget imageex(String linkpic) {
     return Padding(
       padding: const EdgeInsets.only(),
       child: Image(
-        image: AssetImage('images/' + namepic + '.png'),
+        image: NetworkImage(linkpic),
         width: 180,
         height: 100,
       ),
@@ -438,6 +468,18 @@ class _TableexState extends State<Tableex> {
         ]));
   }
 
+  Widget box(String i,String status, String lbs, String rep,
+      String sets, String linkpic){
+    return Column(
+      children: [
+        exercisebackground(i, status, lbs, rep, sets, linkpic),
+        SizedBox(
+          height: 20,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -449,13 +491,14 @@ class _TableexState extends State<Tableex> {
             //decoration: BoxDecoration(color: Colors.white),
             child: Container(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     height: 20,
                   ),
                   returnpage(),
                   topic(
-                    'Tue',
+                    thisDay,
                     '9\n',
                     'Dec',
                     'Day 12',
@@ -463,13 +506,7 @@ class _TableexState extends State<Tableex> {
                   SizedBox(
                     height: 20,
                   ),
-                  exercisebackground(
-                      'Brench Press', 'Done', '15', '12', '3', 'benchpress'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  exercisebackground(
-                      'Leg Press', 'Doing', '60', '12', '3', 'legpress')
+                  if(link.length!=0) for ( var i in todayWorkout) box(i[0], 'Done', i[1], i[2], i[3], link[i[0]]),
                 ],
               ),
             ),

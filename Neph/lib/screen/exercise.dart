@@ -7,7 +7,7 @@ class Exercise extends StatelessWidget {
   
   void checklink() {
     
-    if (data == 'Brench Press') {
+    if (name == 'Brench Press') {
               
       _controller.load('rT7DgCr-3pg');
     } else {
@@ -25,12 +25,13 @@ class Exercise extends StatelessWidget {
       ));
 
   //Medthod
-  final String data;
+  final String name;
+  final String dayExe;
   // final List<bool> isWorkoutDay;
-  Exercise({this.data});
+  Exercise({this.name,this.dayExe});
   Widget showAppName() {
     return Text(
-      data,
+      name,
       style: TextStyle(
         fontFamily: 'Segoe UI',
         fontSize: 24,
@@ -79,7 +80,7 @@ class Exercise extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => Tableex()));
+                    builder: (BuildContext context) => Tableex(dayExe)));
           }),
     );
   }
@@ -90,7 +91,7 @@ class Exercise extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 90),
           child: Text(
-            data + ' Description',
+            name + ' Description',
             style: TextStyle(
               fontFamily: 'Segoe UI',
               fontSize: 20,
