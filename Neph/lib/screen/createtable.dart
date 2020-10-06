@@ -2,15 +2,17 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:neph/screen/exercise.dart';
+import 'package:neph/screen/backend.dart';
 import 'package:neph/screen/plansuccess.dart';
 import 'package:neph/screen/selectExe.dart';
 
 class Createtable extends StatefulWidget {
   // final List<bool> isWorkoutDay;
-
+  final String toDay;
+  Createtable(this.toDay);
   // const Tableex(this.isWorkoutDay);
   @override
-  _CreatetableState createState() => _CreatetableState();
+  _CreatetableState createState() => _CreatetableState(toDay: toDay);
 }
 class Data {
   String text;
@@ -18,9 +20,38 @@ class Data {
 }
 
 class _CreatetableState extends State<Createtable> {
-  // List<bool> isWorkoutDay;
-  // _TableexState({this.isWorkoutDay});
+  String toDay;
+  _CreatetableState({this.toDay});
+  List<String> dayOf = ['Mon','Tue','Wed','Thur','Fri','Sat','Sun'];
+  int indexDay;
+  Map<String,String> link = new Map();
+  List<List<dynamic>> todayWorkout;
   //Medthod
+
+  @override
+  void initState() {
+    super.initState();
+    print('here initSate!!!');
+    start();
+  }
+
+  void start(){
+    for (var i = 0; i < dayOf.length ;i++) {
+      if(dayOf[i] == toDay){
+        indexDay = i;
+      }
+    }
+    
+    todayWorkout = newWorkoutListday[indexDay];
+    link = new Map();
+
+    for(var ii = 0; ii < todayWorkout.length; ii++)
+      for (var j = 0; j < workoutList.length; j++) {
+        if(todayWorkout[ii][0] == workoutList[j][0]){
+          link[workoutList[j][0]] = workoutList[j][1];
+        }
+      }
+  }
 
   Widget returnpage() {
     return Container(
@@ -34,10 +65,11 @@ class _CreatetableState extends State<Createtable> {
             ),
             color: Colors.teal.shade900,
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Sucplan()));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (BuildContext context) => Sucplan()));
+              Navigator.pop(context);
             }),
       ),
     );
@@ -171,130 +203,131 @@ class _CreatetableState extends State<Createtable> {
       ),
     );
   }
-  final data = Data(
-   text: 'name');
   
   Widget exercisebackground(String name, String status, String lbs, String rep,
-      String sets, String namepic) {
+      String sets, String namepic,int inDex) {
         
-    return GestureDetector( 
-        onTap: (){
-          Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Exercise(data : name)));
-        },child: Container(
-        width: 300,
-        height: 175,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(21.0),
-          color: Colors.lightBlue.shade50,
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0x29000000),
-              offset: Offset(3, 3),
-              blurRadius: 6,
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 50, top: 13),
-                  child: exercisename(name),
-                ),
-                Text(
-                  status,
-                  style: TextStyle(
-                    fontFamily: 'Segoe UI',
-                    fontSize: 18,
-                    color: const Color(0x7d394548),
-                    fontWeight: FontWeight.w700,
-                    height: 1.8461538461538463,
-                  ),
-                  textAlign: TextAlign.center,
+    return Stack(
+      alignment: AlignmentDirectional.topEnd,
+      children: [
+
+        Container(
+            width: 300,
+            height: 175,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(21.0),
+              color: Colors.lightBlue.shade50,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0x29000000),
+                  offset: Offset(3, 3),
+                  blurRadius: 6,
                 ),
               ],
             ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
+            child: Column(
               children: [
-                imageex(namepic),
-                Column(
+                Row(
                   children: [
-                    Row(
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 50, top: 13),
+                      child: exercisename(name),
+                    ),
+                    // Text(
+                    //   status,
+                    //   style: TextStyle(
+                    //     fontFamily: 'Segoe UI',
+                    //     fontSize: 18,
+                    //     color: const Color(0x7d394548),
+                    //     fontWeight: FontWeight.w700,
+                    //     height: 1.8461538461538463,
+                    //   ),
+                    //   textAlign: TextAlign.center,
+                    // ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    imageex(namepic),
+                    Column(
                       children: [
-                        valuebox(lbs),
-                        SizedBox(
-                          width: 15,
+                        Row(
+                          children: [
+                            valuebox(1,lbs,inDex),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            
+                            
+                            Text('lbs.',
+                                style: TextStyle(
+                                  fontFamily: 'Segoe UI',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color(0xff394548),
+                                ))
+                          ],
                         ),
-                        
-                        
-                        Text('lbs.',
-                            style: TextStyle(
-                              fontFamily: 'Segoe UI',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: const Color(0xff394548),
-                            ))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        valuebox(rep),
                         SizedBox(
-                          width: 15,
+                          height: 5,
                         ),
-                        Text('reps',
-                            style: TextStyle(
-                              fontFamily: 'Segoe UI',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: const Color(0xff394548),
-                            ))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        valuebox(sets),
+                        Row(
+                          children: [
+                            valuebox(2,rep,inDex),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text('reps',
+                                style: TextStyle(
+                                  fontFamily: 'Segoe UI',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color(0xff394548),
+                                ))
+                          ],
+                        ),
                         SizedBox(
-                          width: 15,
+                          height: 5,
                         ),
-                        Text('sets',
-                            style: TextStyle(
-                              fontFamily: 'Segoe UI',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: const Color(0xff394548),
-                            ))
+                        Row(
+                          children: [
+                            valuebox(3,sets,inDex),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text('sets',
+                                style: TextStyle(
+                                  fontFamily: 'Segoe UI',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color(0xff394548),
+                                ))
+                          ],
+                        ),
                       ],
-                    ),
+                    )
                   ],
                 )
               ],
-            )
-          ],
-        )));
+            )),
+
+            IconButton(icon: Icon(Icons.delete,size: 30,color: Colors.red),onPressed: (){
+              newWorkoutListday[indexDay].removeAt(inDex);
+              link.remove(name);
+              setState(() {
+                start();
+              });
+            }),
+
+      ],
+    );
   }
   Widget emptyexercisebackground() {
         
-    return GestureDetector( 
-        onTap: (){
-          // Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (BuildContext context) => Exercise(data : name)));
-        },child: Container(
+    return Container(
         width: 300,
         height: 175,
         decoration: BoxDecoration(
@@ -314,26 +347,31 @@ class _CreatetableState extends State<Createtable> {
                 size: 50,
                 color: Colors.black,
               ),
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async{
+                bool reset = await Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Select()));
-              }),));
+                    MaterialPageRoute<bool>(
+                        builder: (BuildContext context) => Select(indexDay)));
+                if(reset==true){
+                  setState(() {
+                    start();
+                  });
+                }
+              }),);
   }
 
-  Widget imageex(String namepic) {
+  Widget imageex(String linkpic) {
     return Padding(
       padding: const EdgeInsets.only(),
       child: Image(
-        image: AssetImage('images/' + namepic + '.png'),
+        image: NetworkImage(linkpic),
         width: 180,
         height: 100,
       ),
     );
   }
 
-  Widget valuebox(String value) {
+  Widget valuebox(int name,String value,int inDex) {
     return Padding(
       padding: const EdgeInsets.only(),
       child: Container(
@@ -365,6 +403,9 @@ class _CreatetableState extends State<Createtable> {
               labelStyle: TextStyle(color: Colors.grey, fontSize: 16,
                     fontWeight: FontWeight.w700),
             ),
+            onChanged: (value){
+              newWorkoutListday[indexDay][inDex][name] = value;
+            },
           ),
         ),
       ),
@@ -422,53 +463,6 @@ class _CreatetableState extends State<Createtable> {
     ]);
   }
 
-  Widget blueboxadd(String day, String date, String month) {
-    return Container(
-        width: 327.0,
-        height: 150.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-          color: const Color(0xffd7f0f0),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0x20000000),
-              offset: Offset(0, 3),
-              blurRadius: 6,
-            ),
-          ],
-        ),
-        child: Row(children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                width: 10.0,
-              ),
-              whitebackground2(day),
-              SizedBox(
-                height: 5.0,
-              ),
-              whitebackground(date, month),
-            ],
-          ),
-          SizedBox(
-            width: 60.0,
-          ),
-          IconButton(
-              icon: Icon(
-                Icons.add,
-                size: 30,
-                color: Colors.black,
-              ),
-              color: Colors.teal.shade900,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Createtable()));
-              }),
-        ]));
-  }
   Widget finishButton() {
     return Container(
       child: RaisedButton(
@@ -483,12 +477,22 @@ class _CreatetableState extends State<Createtable> {
             textAlign: TextAlign.left,
           ),
           onPressed: () {
-            MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Sucplan());
-            Navigator.of(context).push(materialPageRoute);
+            Navigator.pop(context);
           },
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0))),
+    );
+  }
+
+  Widget box(String i,String status, String lbs, String rep,
+      String sets, String linkpic, int inDex){
+    return Column(
+      children: [
+        exercisebackground(i, status, lbs, rep, sets, linkpic,inDex),
+        SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 
@@ -500,7 +504,6 @@ class _CreatetableState extends State<Createtable> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            //decoration: BoxDecoration(color: Colors.white),
             child: Container(
               child: Column(
                 children: [
@@ -528,13 +531,10 @@ class _CreatetableState extends State<Createtable> {
                   SizedBox(
                     height: 20,
                   ),emptyexercisebackground()
-                  // exercisebackground(
-                  //     'Brench Press', 'Done', '15', '12', '3', 'benchpress'),
                    ,SizedBox(
                    height: 20,
                    ),
-                   exercisebackground(
-                       'Leg Press', 'Doing', '60', '12', '3', 'legpress')
+                    if(link.length!=0) for ( var i=0;i<todayWorkout.length;i++) box(todayWorkout[i][0], 'Doing', todayWorkout[i][1], todayWorkout[i][2], todayWorkout[i][3], link[todayWorkout[i][0]],i),
                 ],
               ),
             ),

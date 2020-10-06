@@ -1,14 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:neph/screen/backend.dart';
+import 'package:neph/screen/table.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Select extends StatefulWidget{
+  final int toDay;
+  Select(this.toDay);
   @override
-  _SelectState createState() => _SelectState();
+  _SelectState createState() => _SelectState(toDay: toDay);
 }
 
 class _SelectState extends State<Select>{
+  int toDay;
+  _SelectState({this.toDay});
   final formKey = GlobalKey<FormState>();
   List<String> list = [];
   Set<String> show = new Set();
@@ -19,9 +24,10 @@ class _SelectState extends State<Select>{
 @override
 void initState() {
   super.initState();
+  // loadWorkoutList();
   // loadWorkoutList().then((value){setState(() {});});
   // workoutList.add(new Category(snapshot.get('Name'), snapshot.get('Image'), snapshot.get('Description')));
-  fetchData();
+  // fetchData();
 }
 
 Future<void> fetchData() => Future.delayed(Duration(seconds: 1), () {
@@ -118,55 +124,115 @@ Widget tip(String des){
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Container(
-                      width:150,
-                      height:150,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.white,
-                        image:  DecorationImage(
-                          image: NetworkImage(workoutList[index*2][1]),
-                          fit: BoxFit.fitHeight,
+                    Stack(
+                      alignment: AlignmentDirectional.topEnd,
+                      children: [
+                        GestureDetector(
+                          onDoubleTap: (){
+                            bool temp = false;
+                            print('cilck left!!!');
+                            for (var i in newWorkoutListday[toDay]) {
+                              if(i[0] == workoutList[index*2][0]){
+                                temp = true;
+                              }
+                            }
+                            if(temp==false){
+                              setState(() {
+                                newWorkoutListday[toDay].add([workoutList[index*2][0],'0','0','0']);
+                                Navigator.pop(context,true);
+                              });
+                            }else{
+                              Navigator.pop(context,true);
+                            }
+                            // MaterialPageRoute(
+                            //   builder: (BuildContext context) => Tableex('Tu'));
+                          },
+                          child: Container(
+                          width:150,
+                          height:150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white,
+                            image:  DecorationImage(
+                              image: NetworkImage(workoutList[index*2][1]),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: Column(children: [
+                            SizedBox(
+                              height: 120.0,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Text(workoutList[index*2][0],style: TextStyle(backgroundColor: Colors.white, fontWeight: FontWeight.w700,fontSize: 13,color: Colors.deepOrangeAccent)),
+                            ),
+                            ]),
                         ),
-                      ),
-                      child: Column(children: [
-                        tip(workoutList[index*2][2]),
+                        ),
+
                         SizedBox(
-                          height: 60.0,
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(workoutList[index*2][0],style: TextStyle(backgroundColor: Colors.white, fontWeight: FontWeight.w700,fontSize: 13,color: Colors.deepOrangeAccent)),
-                        ),
-                        ]),
-                    ),
+                              width: 60.0,
+                            ),
+                            
+                          tip(workoutList[index*2][2]),
+                      ],
+                    ),                    
 
                     SizedBox(
                       width: 30.0,
                     ),
 
-                    Container(
-                      width:150,
-                      height:150,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.white,
-                        image: DecorationImage(
-                          image: NetworkImage(workoutList[(index*2)+1][1]),
-                          fit: BoxFit.fitHeight,
+                    Stack(
+                      alignment: AlignmentDirectional.topEnd,
+                      children: [
+                        GestureDetector(
+                          onDoubleTap: (){
+                            bool temp = false;
+                            print('cilck right!!!');
+                            for (var i in newWorkoutListday[toDay]) {
+                              if(i[0] == workoutList[index*2+1][0]){
+                                temp = true;
+                              }
+                            }
+                            if(temp==false){
+                              setState(() {
+                                newWorkoutListday[toDay].add([workoutList[index*2+1][0],'0','0','0']);
+                                Navigator.pop(context,true);
+                              });
+                            }else{
+                              Navigator.pop(context,true);
+                            }
+                          },
+                          child: Container(
+                          width:150,
+                          height:150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white,
+                            image:  DecorationImage(
+                              image: NetworkImage(workoutList[(index*2)+1][1]),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: Column(children: [
+                            SizedBox(
+                              height: 120.0,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Text(workoutList[(index*2)+1][0],style: TextStyle(backgroundColor: Colors.white,fontWeight: FontWeight.w700,fontSize: 13,color: Colors.deepOrangeAccent)),
+                            ),
+                            ]),
                         ),
-                      ),
-                      child: Column(children: [
-                        tip(workoutList[(index*2)+1][2]),
+                        ),
+
                         SizedBox(
-                          height: 60.0,
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(workoutList[(index*2)+1][0],style: TextStyle(backgroundColor: Colors.white,fontWeight: FontWeight.w700,fontSize: 13,color: Colors.deepOrangeAccent)),
-                        ),
-                        ]),
-                    ),
+                              width: 60.0,
+                            ),
+                            
+                          tip(workoutList[(index*2)+1][2]),
+                      ],
+                    ),    
                   ])
               ],
             );
@@ -210,7 +276,9 @@ Widget backButton(){
               color: Colors.white,
               size: 20
             ),
-              onPressed: (){}),
+              onPressed: (){
+                Navigator.pop(context);
+              }),
           
           SizedBox(
             width: 30.0,
@@ -225,34 +293,24 @@ Widget backButton(){
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff163737),
-      body: FutureBuilder(
-        future: loadWorkoutList(),
-        builder: (context, snapshot){
-          // print('asdadasd ====>>>>>> ${snapshot.data}');
-          if(snapshot.hasData){
-            return SingleChildScrollView(
-              child: SafeArea(
-                child: Column(
-                    mainAxisSize: MainAxisSize.min, children: <Widget>[
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+                mainAxisSize: MainAxisSize.min, children: <Widget>[
 
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                SizedBox(
+                  height: 10.0,
+                ),
 
-                    backButton(),
+                backButton(),
 
-                    SizedBox(
-                        height: 30.0,
-                      ),
-                    Center(child: foodPart()),
-                  ])),
-            );
-          }else{
-            return Center(child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+                SizedBox(
+                    height: 30.0,
+                  ),
+                Center(child: foodPart()),
+              ])),
+        )
+            // return Center(child: CircularProgressIndicator(),
     );
   }
 }

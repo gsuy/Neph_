@@ -29,11 +29,24 @@ class _HomeState extends State<Home> {
     id = '2';
     print('Connect main!!!.');
     print('id ====>>>> $id');
-    loadisWorkoutDay();
-    // if(workoutList.length==0){
-      loadWorkoutList();
-    // }
+    // loadisWorkoutDay();
+    loadUser();
+    loadWorkoutList();
+    loadworkoutListday();
+    fetchData();
   }
+
+  Future<void> fetchData() => Future.delayed(Duration(seconds: 3), () {
+      if(workoutList.length != 0){
+        ready = true;
+      }else{
+        fetchData();
+      }
+      // print('sadasdadasada====>${user['Name']}');
+      // for (var i in workoutListday) {
+      //   print('testtt ===>>> $i');
+      // }
+      });
 
   // Future<void> readAllData()async{
   //   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -349,28 +362,42 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(color: const Color(0xff394548)),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    iconsetting(),
-                    SizedBox(width: 250),
-                    iconprofile()
-                  ],
-                ),
-                SizedBox(height: 70),
-                Align(alignment: Alignment(-0.7, 0), child: nametab()),
-              ],
+      body: FutureBuilder(
+        future: fetchData(),
+        builder: (context,snapshot){
+          if(ready==true){
+            return SafeArea(
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(color: const Color(0xff394548)),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            iconsetting(),
+                            SizedBox(width: 250),
+                            iconprofile()
+                          ],
+                        ),
+                        SizedBox(height: 70),
+                        Align(alignment: Alignment(-0.7, 0), child: nametab()),
+                      ],
+                    ),
+                  ),
+                  whiteback()
+                ],
+              ));
+          }else{
+            return Center(child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+              strokeWidth: 6,
             ),
-          ),
-          whiteback()
-        ],
-      )),
+            );
+          }
+        }
+      ),
     );
   }
 }
+
