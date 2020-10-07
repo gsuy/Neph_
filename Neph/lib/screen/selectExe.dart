@@ -139,6 +139,8 @@ Widget tip(String des){
                             if(temp==false){
                               setState(() {
                                 newWorkoutListday[toDay].add([workoutList[index*2][0],'0','0','0']);
+                                print('add to new: $newWorkoutListday');
+                                print('from main: $workoutListday');
                                 Navigator.pop(context,true);
                               });
                             }else{
@@ -197,6 +199,8 @@ Widget tip(String des){
                             if(temp==false){
                               setState(() {
                                 newWorkoutListday[toDay].add([workoutList[index*2+1][0],'0','0','0']);
+                                print('add to new: $newWorkoutListday');
+                                print('from main: $workoutListday');
                                 Navigator.pop(context,true);
                               });
                             }else{

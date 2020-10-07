@@ -14,7 +14,7 @@ class Createplan extends StatefulWidget {
 // enum WidgetMarker { add, rest }
 
 class _CreateplanState extends State<Createplan> {
-  List<bool> newselectday = isWorkoutDay; //monday , ... , sunday
+  List<bool> newselectday = new List<bool>.from(isWorkoutDay); //monday , ... , sunday
   
   //Medthod
   @override
@@ -284,13 +284,14 @@ class _CreateplanState extends State<Createplan> {
             textAlign: TextAlign.left,
           ),
           onPressed: () {
-            isWorkoutDay = newselectday;
+            isWorkoutDay = new List<bool>.from(newselectday);
             setisWorkoutDay();
-            workoutListday = newWorkoutListday;
-            newWorkoutListday = [];
+            // workoutListday = newWorkoutListday;
+            // newWorkoutListday = new a;
             setworkoutListday();
             resetWorkoulist();
-            workoutListday = newWorkoutListday;
+            // workoutListday = new List<List<List<dynamic>>>.from(newWorkoutListday);
+            newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
             setworkoutListday();
             Navigator.popUntil(context, (route) => false);
             MaterialPageRoute materialPageRoute =

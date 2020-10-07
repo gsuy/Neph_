@@ -44,7 +44,7 @@ class _TableexState extends State<Tableex> {
       }
     }
     
-    todayWorkout = workoutListday[indexDay];
+    todayWorkout = new List<List<dynamic>>.from(workoutListday[indexDay]);
     link = new Map();
 
     for(var ii = 0; ii < todayWorkout.length; ii++)
