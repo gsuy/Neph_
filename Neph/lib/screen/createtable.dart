@@ -42,7 +42,7 @@ class _CreatetableState extends State<Createtable> {
       }
     }
     
-    todayWorkout = newWorkoutListday[indexDay];
+    todayWorkout = new List<List<dynamic>>.of(newWorkoutListday[indexDay]);
     link = new Map();
 
     for(var ii = 0; ii < todayWorkout.length; ii++)
@@ -317,7 +317,10 @@ class _CreatetableState extends State<Createtable> {
             IconButton(icon: Icon(Icons.delete,size: 30,color: Colors.red),onPressed: (){
               newWorkoutListday[indexDay].removeAt(inDex);
               link.remove(name);
+              
               setState(() {
+                print('new=>${newWorkoutListday}');
+              print('main=>${workoutListday}');
                 start();
               });
             }),

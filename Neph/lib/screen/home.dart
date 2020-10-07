@@ -33,12 +33,15 @@ class _HomeState extends State<Home> {
     loadUser();
     loadWorkoutList();
     loadworkoutListday();
+    loadCategory();
+    
     fetchData();
   }
 
-  Future<void> fetchData() => Future.delayed(Duration(seconds: 3), () {
+  Future<void> fetchData() => Future.delayed(Duration(seconds: 4), () {
       if(workoutList.length != 0){
         ready = true;
+        autogenfunction();
       }else{
         fetchData();
       }

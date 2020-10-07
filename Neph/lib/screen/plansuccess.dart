@@ -20,7 +20,7 @@ class _SucplanState extends State<Sucplan> {
   @override
   void initState() {
     super.initState();
-    newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
+    // newWorkoutListday = new List<List<List<dynamic>>>.of(workoutListday);
     // loadisWorkoutDay().then((value){setState(() {});});
   }
 
@@ -222,7 +222,7 @@ class _SucplanState extends State<Sucplan> {
                 // print('reset====>>>>$reset');
                 if(reset==null){
                   setState(() {
-                    newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
+                    // newWorkoutListday = new List<List<List<dynamic>>>.of(workoutListday);
                   });
                 }
               }),
