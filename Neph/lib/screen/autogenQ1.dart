@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:neph/screen/autogenQ2.dart';
 import 'package:neph/screen/signin.dart';
 import 'package:neph/screen/signup.dart';
+import 'package:neph/screen/backend.dart';
 
 class Autoq1 extends StatefulWidget {
   @override
@@ -40,7 +41,7 @@ class _Autoq1State extends State<Autoq1> {
       height: 40,
       child: RaisedButton(
           color: Colors.white,
-          child: Text('Beginer',
+          child: Text('Beginner',
               style: TextStyle(
                 fontFamily: 'Segoe UI',
                 fontSize: 20,
@@ -48,6 +49,7 @@ class _Autoq1State extends State<Autoq1> {
               ),
               textAlign: TextAlign.left),
           onPressed: () {
+            q1='Beginner';
             MaterialPageRoute materialPageRoute =
                 MaterialPageRoute(builder: (BuildContext context) => Autoq2());
             Navigator.of(context).push(materialPageRoute);
@@ -73,6 +75,7 @@ class _Autoq1State extends State<Autoq1> {
             textAlign: TextAlign.left,
           ),
           onPressed: () {
+            q1 ='Intermediate';
             MaterialPageRoute materialPageRoute =
                 MaterialPageRoute(builder: (BuildContext context) => Autoq2());
             Navigator.of(context).push(materialPageRoute);
@@ -98,6 +101,7 @@ class _Autoq1State extends State<Autoq1> {
             textAlign: TextAlign.left,
           ),
           onPressed: () {
+            q1 = 'Advance';
             MaterialPageRoute materialPageRoute =
                 MaterialPageRoute(builder: (BuildContext context) => Autoq2());
             Navigator.of(context).push(materialPageRoute);
