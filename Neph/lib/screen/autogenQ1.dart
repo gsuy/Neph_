@@ -64,13 +64,13 @@ class _Autoq1State extends State<Autoq1> {
       width: 250,
       height: 40,
       child: RaisedButton(
-          color: const Color(0xff4f6165),
+          color: Colors.white,
           child: Text(
             'Intermediate',
             style: TextStyle(
               fontFamily: 'Segoe UI',
               fontSize: 20,
-              color: Colors.black,
+              color: const Color(0xff4f6165),
             ),
             textAlign: TextAlign.left,
           ),
@@ -90,13 +90,13 @@ class _Autoq1State extends State<Autoq1> {
       width: 250,
       height: 40,
       child: RaisedButton(
-          color: const Color(0xff4f6165),
+          color: Colors.white,
           child: Text(
             'Advance',
             style: TextStyle(
               fontFamily: 'Segoe UI',
               fontSize: 20,
-              color: Colors.black,
+              color: const Color(0xff4f6165),
             ),
             textAlign: TextAlign.left,
           ),
