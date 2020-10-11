@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:neph/screen/autogenQ3.dart';
-import 'package:neph/screen/signin.dart';
-import 'package:neph/screen/signup.dart';
+import 'package:neph/screen/backend.dart';
+import 'package:neph/screen/selectdaygen.dart';
+
 
 class Autoq2 extends StatefulWidget {
   @override
@@ -40,7 +40,7 @@ class _Autoq2State extends State<Autoq2> {
       height: 40,
       child: RaisedButton(
           color: Colors.white,
-          child: Text('Lose Fat',
+          child: Text('Gain Muscle',
               style: TextStyle(
                 fontFamily: 'Segoe UI',
                 fontSize: 20,
@@ -48,8 +48,9 @@ class _Autoq2State extends State<Autoq2> {
               ),
               textAlign: TextAlign.left),
           onPressed: () {
+            q2='Gain Muscle';
             MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Autoq3());
+                MaterialPageRoute(builder: (BuildContext context) => Daygen());
             Navigator.of(context).push(materialPageRoute);
           },
           shape: new RoundedRectangleBorder(
@@ -62,19 +63,20 @@ class _Autoq2State extends State<Autoq2> {
       width: 250,
       height: 40,
       child: RaisedButton(
-          color: const Color(0xff4f6165),
+          color: Colors.white,
           child: Text(
-            'Bulk Up',
+            'Lose Weight',
             style: TextStyle(
               fontFamily: 'Segoe UI',
               fontSize: 20,
-              color: Colors.black,
+              color: const Color(0xff4f6165),
             ),
             textAlign: TextAlign.left,
           ),
           onPressed: () {
+            q2='Lose weight';
             MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Autoq3());
+                MaterialPageRoute(builder: (BuildContext context) => Daygen());
             Navigator.of(context).push(materialPageRoute);
           },
           shape: new RoundedRectangleBorder(
@@ -87,19 +89,20 @@ class _Autoq2State extends State<Autoq2> {
       width: 250,
       height: 40,
       child: RaisedButton(
-          color: const Color(0xff4f6165),
+          color: Colors.white,
           child: Text(
-            'Build Muscle',
+            'Strength',
             style: TextStyle(
               fontFamily: 'Segoe UI',
               fontSize: 20,
-              color: Colors.black,
+              color: const Color(0xff4f6165),
             ),
             textAlign: TextAlign.left,
           ),
           onPressed: () {
+            q2 = 'Strength';
             MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Autoq3());
+                MaterialPageRoute(builder: (BuildContext context) => Daygen());
             Navigator.of(context).push(materialPageRoute);
           },
           shape: new RoundedRectangleBorder(

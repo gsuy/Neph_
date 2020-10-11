@@ -12,22 +12,16 @@ List<List<List<dynamic>>> newWorkoutListday = [];
 bool ready = false;
 List<bool> isWorkoutDay = [false,false,false,false,false,false,false];
 
-List<List<String>> back = [];
-List<List<String>> leg = [];
-List<List<String>> biceparm = [];
-List<List<String>> triceparm = [];
-List<List<String>> chest = [];
-List<List<String>> shoulder = [];
-List<List<List<String>>> allpartworkout = [];
 
-List<String> formgen  = []; 
+List<List<List<String>>> allpartworkout = [];
 List<List<String>> allformofweek  = []; 
 List<List<List<String>>> mempartworkout = [];
 
-int countdayexercise = 4;
+int countdayexercise = 2;
 int maxformperday=0;
 int repperset=0;
 int weigth =0;
+int sets =0;
 String q1 = 'Beginner';
 String q2 = 'Gain Muscle';
 
@@ -118,16 +112,29 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 
 void autogenfunction(){
-
+    allformofweek.clear();
+    resetvalue();
+    countdayexercise=0;
+    print('q1 = $q1');
+    print('q2 = $q2');
+    for (int countday = 0 ; countday<isWorkoutDay.length;countday++){
+      if(isWorkoutDay[countday]==true){
+        countdayexercise+=1;
+      }
+    }
+    print('day =  $countdayexercise');
+    int part = 2;
+    
     if (q1 == 'Beginner'){
       weigth = 5;
+      sets = 3;
     }else{
       weigth = 0;
+      sets = 4;
     }
-
     if (q2 == 'Gain Muscle'){
       repperset=12;
-      maxformperday=6;
+      maxformperday=5;
     }
     else if (q2 == 'Lose weight'){
       repperset=15;
@@ -136,54 +143,96 @@ void autogenfunction(){
     else{
       repperset=8;
       maxformperday=3;
+      sets = 5;
+      part = 3;
     }
-
+    if(countdayexercise <3){
+      part = 3;
+      maxformperday = 7;
+    }else if(countdayexercise<7){
+      part = 2;
+    }else if(countdayexercise == 7){
+      part = 1;
+    }
+    
     List<String> temp = []; 
-    int k = 0; 
+    int changeform = 0;
+    int saveform = 0;
     int memoryformperday = maxformperday;
-    for (var i = 0;i<countdayexercise;i++){
+    //print('amount day = $countdayexercise');
+    for (int i = 1; i<=countdayexercise; i++){
+      //print('do it = $i');
       if ( countdayexercise > 5 && q2 != 'Strength'){
         maxformperday = 4;
-        memoryformperday = maxformperday;
       }else {
         maxformperday = memoryformperday;
       }
-      int cout = 0;
       temp = [];
-      while (maxformperday != 0) {
-          print('current maxformperday ==>$maxformperday');
-          print('current mempartworkout ==>$maxformperday');
-          print('current k ===> $k');
-          print('cout==> $cout');
-          cout += 1;
-          print(mempartworkout[k]);
-          for (var l =0;i<mempartworkout[k].length;l++){
-            print('test');
-            // if (int.parse(mempartworkout[k][l][1]) > 1){
-              temp.add(mempartworkout[k][l][0]);
-              mempartworkout.remove(mempartworkout[k][l]);
-              //removeform
-              maxformperday--;
-            // }
-            // else if(maxformperday < 3){
-            //   temp.add(allpartworkout[k][l][0]);
-            //   mempartworkout.remove(mempartworkout[k][l]);
-            //   maxformperday--;
-            // }
-
-               if(k%2 == 0 && maxformperday != 0 && k != 0){
-                 k -=2;
-               }
+        for(int x =0;x<2;x++){
+          //print('do it x= $x');
+          for(int k = 0;k<part;k++){
+            //print('do it k= $k');
+            if(saveform >=mempartworkout.length){
+              saveform = 0;
+              resetvalue();
+              //print('Why !!!!!!!!!!!!!!!!!!!!!!');
+            }
+            if  (changeform >= mempartworkout.length){
+              changeform = 0;
+            }
+            if (x == 0){
+              changeform=0;
+              changeform=saveform+k;
+            }else{
+              changeform=0;
+              changeform=saveform+k;
+            }
+            //int xx = mempartworkout[changeform].length;
+            //print('changeform = $changeform');
+            //print('maxformperday = $maxformperday');
+            //print('allpartworkout = $allpartworkout');
+            //print('mempartworkout = $mempartworkout');
+            
+            for(int j =0;j<mempartworkout[changeform].length;j++){
+              //print('do it j= $j');
+              if(maxformperday <= 0){
+                break;
+              }
+              if (x == 0){
+                if( int.parse(mempartworkout[changeform][j][1]) == 3 && mempartworkout[changeform][j][2] != '-1' && maxformperday > 0){
+                  temp.add(mempartworkout[changeform][j][0]);
+                  mempartworkout[changeform][j][2]='-1';
+                  maxformperday--;
+                } 
+              }
+              if(x == 1){
+                if( maxformperday > 0 && mempartworkout[changeform][j][2] != '-1' ){
+                  temp.add(mempartworkout[changeform][j][0]);
+                  mempartworkout[changeform][j][2]='-1';
+                  maxformperday--;
+                }
+              }
+            }
           }
-            k++;
-      }
-         k++;
+        }
+        //changeform = part +1;
+        saveform += part;
+        //changeform ++;
       allformofweek.add(temp);
     }
-    print('sadasd4 ===> $allformofweek');
+    print('That finish');
+    print('All exercise ===> $allformofweek');
 }
 
 Future<void> loadCategory()async{
+  List<List<String>> back = [];
+  List<List<String>> leg = [];
+  List<List<String>> biceparm = [];
+  List<List<String>> triceparm = [];
+  List<List<String>> chest = [];
+  List<List<String>> shoulder = [];
+  allpartworkout.clear();
+  mempartworkout.clear();
     for (var i = 0; i < categoryAll.length; i++) {
       await firestore.collection('WorkoutList').doc('Category').collection(categoryAll[i]).snapshots().listen((event) {
         List<DocumentSnapshot> snapshots = event.docs;
@@ -193,6 +242,8 @@ Future<void> loadCategory()async{
               temp = [];
               temp.add(snapshot.get('Name'));
               temp.add(snapshot.get('priority'));
+              temp.add('1');
+              //back.add(new List.of(temp));}
               back.add(temp);}
           }
           else if(categoryAll[i] == 'Biceps Arm'){
@@ -200,6 +251,8 @@ Future<void> loadCategory()async{
               temp = [];
               temp.add(snapshot.get('Name'));
               temp.add(snapshot.get('priority'));
+              temp.add('1');
+              //biceparm.add(new List.of(temp));
               biceparm.add(temp);
             }
           }
@@ -208,6 +261,8 @@ Future<void> loadCategory()async{
               temp = [];
               temp.add(snapshot.get('Name'));
               temp.add(snapshot.get('priority'));
+              temp.add('1');
+              //chest.add(new List.of(temp));
               chest.add(temp);
             }
           }
@@ -216,6 +271,8 @@ Future<void> loadCategory()async{
               temp = [];
               temp.add(snapshot.get('Name'));
               temp.add(snapshot.get('priority'));
+              temp.add('1');
+              //leg.add(new List.of(temp));
               leg.add(temp);
             }
           }
@@ -224,7 +281,10 @@ Future<void> loadCategory()async{
               temp = [];
               temp.add(snapshot.get('Name'));
               temp.add(snapshot.get('priority'));
+              temp.add('1');
+              //shoulder.add(new List.of(temp));
               shoulder.add(temp);
+              
             }
           }
           else if(categoryAll[i] == 'Triceps Arm'){
@@ -232,17 +292,39 @@ Future<void> loadCategory()async{
               temp = [];
               temp.add(snapshot.get('Name'));
               temp.add(snapshot.get('priority'));
+              temp.add('1');
+              //triceparm.add(new List.of(temp));
               triceparm.add(temp);
-        }
-            
+              // print('Temp in tricep = $temp');
+              // print('tricep = $triceparm');
+            } 
           }
-      });
-    }
+      }
+    );
+    
+  }
+    //print('tricep out main = $triceparm');
+    // allpartworkout.add(new List.of(back));
+    // allpartworkout.add(new List.of(shoulder));
+    // allpartworkout.add(new List.of(chest));
+    // allpartworkout.add(new List.of(leg));
+    // allpartworkout.add(new List.of(triceparm));
+    // allpartworkout.add(new List.of(biceparm));
     allpartworkout.add(back);
     allpartworkout.add(shoulder);
     allpartworkout.add(chest);
     allpartworkout.add(leg);
     allpartworkout.add(triceparm);
     allpartworkout.add(biceparm);
-    mempartworkout = new List<List<List<String>>>.from(allpartworkout);
+    mempartworkout = new List.of(allpartworkout);
+    // print('load time mempartworkout = $mempartworkout');
+    // print('load time allpartworkout = $allpartworkout');
+}
+void resetvalue(){
+  for (int i = 0 ; i<mempartworkout.length;i++){
+    for (int j = 0 ; j<mempartworkout[i].length;j++){
+        mempartworkout[i][j][2]='1';
+        //print('This is my change $mempartworkout[i][j][2]');
+    }
   }
+}

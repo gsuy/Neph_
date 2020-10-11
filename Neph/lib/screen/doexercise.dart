@@ -29,6 +29,52 @@ class _MyHomePageState extends State<MyHomePage> {
   File _selectedFile;
   bool _inProcess = false;
 
+  Widget cameraButton() {
+    return Container(
+      width: 250,
+      height: 40,
+      child: RaisedButton(
+          color: Colors.white,
+          child: Text(
+            'Camera',
+            style: TextStyle(
+              fontFamily: 'Segoe UI',
+              fontSize: 20,
+              color: const Color(0xff4f6165),
+            ),
+            textAlign: TextAlign.left,
+          ),
+          onPressed: () {
+            getImage(ImageSource.camera);
+          },
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0))),
+    );
+  }
+
+  Widget uploadButton() {
+    return Container(
+      width: 250,
+      height: 40,
+      child: RaisedButton(
+          color: Colors.white,
+          child: Text(
+            'Upload',
+            style: TextStyle(
+              fontFamily: 'Segoe UI',
+              fontSize: 20,
+              color: const Color(0xff4f6165),
+            ),
+            textAlign: TextAlign.left,
+          ),
+          onPressed: () {
+            getImage(ImageSource.gallery);
+          },
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0))),
+    );
+  }
+
   Widget getImageWidget() {
     if (_selectedFile != null) {
       return Image.file(
@@ -48,81 +94,89 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   getImage(ImageSource source) async {
-      this.setState((){
-        _inProcess = true;
-      });
-      File image = await ImagePicker.pickImage(source: source);
-      if(image != null){
-        File cropped = await ImageCropper.cropImage(
-            sourcePath: image.path,
-            aspectRatio: CropAspectRatio(
-                ratioX: 1, ratioY: 1),
-            compressQuality: 100,
-            maxWidth: 700,
-            maxHeight: 700,
-            compressFormat: ImageCompressFormat.jpg,
-            androidUiSettings: AndroidUiSettings(
-              toolbarColor: Colors.deepOrange,
-              toolbarTitle: "RPS Cropper",
-              statusBarColor: Colors.deepOrange.shade900,
-              backgroundColor: Colors.white,
-            )
-        );
+    this.setState(() {
+      _inProcess = true;
+    });
+    File image = await ImagePicker.pickImage(source: source);
+    if (image != null) {
+      File cropped = await ImageCropper.cropImage(
+          sourcePath: image.path,
+          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+          compressQuality: 100,
+          maxWidth: 700,
+          maxHeight: 700,
+          compressFormat: ImageCompressFormat.jpg,
+          androidUiSettings: AndroidUiSettings(
+            toolbarColor: Colors.deepOrange,
+            toolbarTitle: "RPS Cropper",
+            statusBarColor: Colors.deepOrange.shade900,
+            backgroundColor: Colors.white,
+          ));
 
-        this.setState((){
-          _selectedFile = cropped;
-          _inProcess = false;
-        });
-      } else {
-        this.setState((){
-          _inProcess = false;
-        });
-      }
+      this.setState(() {
+        _selectedFile = cropped;
+        _inProcess = false;
+      });
+    } else {
+      this.setState(() {
+        _inProcess = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+        body: Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Colors.cyan.shade800, Colors.grey.shade900],
+        //colors: [Colors.purple.shade800, Colors.teal.shade600],
+      )),
+      child: Stack(
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              getImageWidget(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  MaterialButton(
-                      color: Colors.green,
-                      child: Text(
-                        "Camera",
-                        style: TextStyle(color: Colors.white),
+              //getImageWidget(),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(
+                      'Please upload your video record.',
+                      style: TextStyle(
+                        fontFamily: 'Trebuchet MS',
+                        fontSize: 22,
+                        color: const Color(0xffffffff),
                       ),
-                      onPressed: () {
-                        getImage(ImageSource.camera);
-                      }),
-                  MaterialButton(
-                      color: Colors.deepOrange,
-                      child: Text(
-                        "Upload",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        getImage(ImageSource.gallery);
-                      })
-                ],
+                      textAlign: TextAlign.center,
+                    ),SizedBox(
+                      height: 50,
+                    ),
+                    cameraButton(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    uploadButton()
+                  ],
+                ),
               )
             ],
           ),
-          (_inProcess)?Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height * 0.95,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ):Center()
+          (_inProcess)
+              ? Container(
+                  color: Colors.white,
+                  height: MediaQuery.of(context).size.height * 0.95,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Center()
         ],
-      )
-    );
+      ),
+    ));
   }
 }

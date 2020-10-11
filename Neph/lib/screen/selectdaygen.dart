@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:neph/screen/autogenQ2.dart';
 import 'package:neph/screen/autogenQ3.dart';
-import 'package:neph/screen/autogenQ4.dart';
 import 'package:neph/screen/createplan.dart';
 import 'package:neph/screen/plansche.dart';
 import 'package:neph/screen/plansuccess.dart';
 import 'package:neph/screen/signin.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:neph/screen/backend.dart';
 
 class Daygen extends StatefulWidget {
   @override
@@ -14,13 +17,8 @@ class Daygen extends StatefulWidget {
 class _DaygenState extends State<Daygen> {
   //Medthod
   List<bool> isSelected;
-  bool mondayvalue = false;
-  bool tuesvalue = false;
-  bool wedvalue = false;
-  bool thurvalue = false;
-  bool frivalue = false;
-  bool satvalue = false;
-  bool sunvalue = false;
+  List<bool> selectDay = [false,false,false,false,false,false,false];
+  //Medthod
   @override
   void initState() {
     isSelected = [true, false];
@@ -44,7 +42,7 @@ class _DaygenState extends State<Daygen> {
         child: InkWell(
       onTap: () {
         setState(() {
-          mondayvalue = !mondayvalue;
+          selectDay[0] = !selectDay[0];
         });
       },
       child: Container(
@@ -52,7 +50,7 @@ class _DaygenState extends State<Daygen> {
         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: mondayvalue
+          child: selectDay[0]
               ? Theme(
                   data: new ThemeData(
                       primaryColor: const Color(0xff2aafaf),
@@ -105,7 +103,7 @@ class _DaygenState extends State<Daygen> {
         child: InkWell(
       onTap: () {
         setState(() {
-          tuesvalue = !tuesvalue;
+          selectDay[1] = !selectDay[1];
         });
       },
       child: Container(
@@ -113,7 +111,7 @@ class _DaygenState extends State<Daygen> {
         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: tuesvalue
+          child: selectDay[1]
               ? Theme(
                   data: new ThemeData(
                       primaryColor: const Color(0xff2aafaf),
@@ -166,7 +164,7 @@ class _DaygenState extends State<Daygen> {
         child: InkWell(
       onTap: () {
         setState(() {
-          wedvalue = !wedvalue;
+          selectDay[2] = !selectDay[2];
         });
       },
       child: Container(
@@ -174,7 +172,7 @@ class _DaygenState extends State<Daygen> {
         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: wedvalue
+          child: selectDay[2]
               ? Theme(
                   data: new ThemeData(
                       primaryColor: const Color(0xff2aafaf),
@@ -227,7 +225,7 @@ class _DaygenState extends State<Daygen> {
         child: InkWell(
       onTap: () {
         setState(() {
-          thurvalue = !thurvalue;
+          selectDay[3] = !selectDay[3];
         });
       },
       child: Container(
@@ -235,7 +233,7 @@ class _DaygenState extends State<Daygen> {
         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: thurvalue
+          child: selectDay[3]
               ? Theme(
                   data: new ThemeData(
                       primaryColor: const Color(0xff2aafaf),
@@ -288,7 +286,7 @@ class _DaygenState extends State<Daygen> {
         child: InkWell(
       onTap: () {
         setState(() {
-          frivalue = !frivalue;
+          selectDay[4] = !selectDay[4];
         });
       },
       child: Container(
@@ -296,7 +294,7 @@ class _DaygenState extends State<Daygen> {
         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: frivalue
+          child: selectDay[4]
               ? Theme(
                   data: new ThemeData(
                       primaryColor: const Color(0xff2aafaf),
@@ -349,7 +347,7 @@ class _DaygenState extends State<Daygen> {
         child: InkWell(
       onTap: () {
         setState(() {
-          satvalue = !satvalue;
+          selectDay[5] = !selectDay[5];
         });
       },
       child: Container(
@@ -357,7 +355,7 @@ class _DaygenState extends State<Daygen> {
         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: satvalue
+          child: selectDay[5]
               ? Theme(
                   data: new ThemeData(
                       primaryColor: const Color(0xff2aafaf),
@@ -410,7 +408,7 @@ class _DaygenState extends State<Daygen> {
         child: InkWell(
       onTap: () {
         setState(() {
-          sunvalue = !sunvalue;
+          selectDay[6] = !selectDay[6];
         });
       },
       child: Container(
@@ -418,7 +416,7 @@ class _DaygenState extends State<Daygen> {
         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(0.0),
-          child: sunvalue
+          child: selectDay[6]
               ? Theme(
                   data: new ThemeData(
                       primaryColor: const Color(0xff2aafaf),
@@ -478,10 +476,13 @@ class _DaygenState extends State<Daygen> {
             ),
             color: Colors.teal.shade900,
             onPressed: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (BuildContext context) => Sucplan()));
+              autogenfunction();
+              isWorkoutDay = selectDay;
+              setisWorkoutDay();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Sucplan()));
             }),
       ),
     );
@@ -500,7 +501,7 @@ class _DaygenState extends State<Daygen> {
             color: Colors.teal.shade900,
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext context) => Autoq4()));
+                  MaterialPageRoute(builder: (BuildContext context) => Autoq2()));
             }),
       ),
     );

@@ -34,14 +34,13 @@ class _HomeState extends State<Home> {
     loadWorkoutList();
     loadworkoutListday();
     loadCategory();
-    
     fetchData();
   }
 
   Future<void> fetchData() => Future.delayed(Duration(seconds: 4), () {
       if(workoutList.length != 0){
         ready = true;
-        autogenfunction();
+        
       }else{
         fetchData();
       }
@@ -112,6 +111,7 @@ class _HomeState extends State<Home> {
                 color: Colors.lightBlue.shade50,
               ),
               onPressed: () {
+               
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -131,6 +131,8 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
               ),
               onPressed: () {
+                //allformofweek=[];
+                autogenfunction();
                 Navigator.push(
                     context,
                     MaterialPageRoute(
