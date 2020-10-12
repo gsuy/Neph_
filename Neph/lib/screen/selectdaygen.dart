@@ -8,6 +8,7 @@ import 'package:neph/screen/signin.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:neph/screen/backend.dart';
+import 'package:neph/screen/home.dart';
 
 class Daygen extends StatefulWidget {
   @override
@@ -476,17 +477,50 @@ class _DaygenState extends State<Daygen> {
             ),
             color: Colors.teal.shade900,
             onPressed: () {
+              isWorkoutDay = new List<bool>.from(selectDay);
               autogenfunction();
-              isWorkoutDay = selectDay;
+              print('testtttttt!!!');
+              
               setisWorkoutDay();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Sucplan()));
+              resetWorkoutlist();
+
+              workoutListday = [[],[],[],[],[],[],[]];
+              int count = 0;
+              print('vvvvvvvvvvvvvvvvv');
+              print('vvvvvvvvvvvvvvvvv');
+              print('vvvvvv NEW vvvvvv');
+              print('vvvvvvvvvvvvvvvvv');
+              print('vvvvvvvvvvvvvvvvv');
+              print('countdayexercise ==> $countdayexercise');
+              print('isWorkoutDay.length=>${isWorkoutDay.length}');
+
+              for (var i = 0; i < isWorkoutDay.length; i++) {
+                print('i = $i');
+                if(isWorkoutDay[i] == true){
+                  // List<String> temp = [allformofweek[0],];
+                  print('for i = $i then ii = ${allformofweek[count]}');
+                  for(var ii in allformofweek[count]){
+                    
+                    workoutListday[i].add([ii.toString(),weight.toString(),repperset.toString(),sets.toString()]);
+                  }
+                  // allformofweek.removeAt(0);
+                  count += 1;
+                }
+              }
+              setworkoutListday();
+              wait();
             }),
       ),
     );
   }
+
+  Future<void> wait() => Future.delayed(Duration(seconds: 2), () {
+          Navigator.popUntil(context, (route) => false);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Home()));
+      });
 
   Widget returnpage() {
     return Container(
