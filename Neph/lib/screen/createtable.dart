@@ -124,8 +124,8 @@ class _CreatetableState extends State<Createtable> {
 
   Widget whitebackground2(String day) {
     return Container(
-      width: 90,
-      height: 35,
+      width: 80,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(21.0),
         color: Colors.lightBlue.shade50,
@@ -151,7 +151,7 @@ class _CreatetableState extends State<Createtable> {
               TextSpan(
                 text: day,
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 30,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -427,13 +427,7 @@ class _CreatetableState extends State<Createtable> {
             padding: const EdgeInsets.only(left: 50),
             child: whitebackground2(day),
           ),
-          SizedBox(
-            height: 5.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 50),
-            child: whitebackground(date, month),
-          ),
+          
         ],
       ),
       SizedBox(
@@ -451,16 +445,7 @@ class _CreatetableState extends State<Createtable> {
             ),
             textAlign: TextAlign.left,
           ),
-          Text(
-            type,
-            style: TextStyle(
-              fontFamily: 'Segoe UI',
-              fontWeight: FontWeight.w700,
-              fontSize: 36,
-              color: const Color(0xff394548),
-            ),
-            textAlign: TextAlign.left,
-          ),
+          
         ],
       ),
     ]);

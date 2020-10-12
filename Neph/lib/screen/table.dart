@@ -73,57 +73,12 @@ class _TableexState extends State<Tableex> {
     );
   }
 
-  Widget whitebackground(String date, String month) {
-    return Container(
-      width: 90,
-      height: 70,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(21.0),
-        color: Colors.lightBlue.shade50,
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0x29000000),
-            offset: Offset(3, 3),
-            blurRadius: 6,
-          ),
-        ],
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: Text.rich(
-          TextSpan(
-            style: TextStyle(
-              fontFamily: 'Segoe UI',
-              fontSize: 30,
-              color: const Color(0xff394548),
-              height: 0.8,
-            ),
-            children: [
-              TextSpan(
-                text: date,
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              TextSpan(
-                text: month,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
+  
 
   Widget whitebackground2(String day) {
     return Container(
-      width: 90,
-      height: 35,
+      width: 80,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(21.0),
         color: Colors.lightBlue.shade50,
@@ -149,7 +104,7 @@ class _TableexState extends State<Tableex> {
               TextSpan(
                 text: day,
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 30,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -381,13 +336,6 @@ class _TableexState extends State<Tableex> {
             padding: const EdgeInsets.only(left: 50),
             child: whitebackground2(day),
           ),
-          SizedBox(
-            height: 5.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 50),
-            child: whitebackground(date, month),
-          ),
         ],
       ),
       SizedBox(
@@ -401,16 +349,6 @@ class _TableexState extends State<Tableex> {
               fontFamily: 'Segoe UI',
               fontSize: 40,
               fontWeight: FontWeight.w700,
-              color: const Color(0xff394548),
-            ),
-            textAlign: TextAlign.left,
-          ),
-          Text(
-            type,
-            style: TextStyle(
-              fontFamily: 'Segoe UI',
-              fontWeight: FontWeight.w700,
-              fontSize: 36,
               color: const Color(0xff394548),
             ),
             textAlign: TextAlign.left,
@@ -443,10 +381,7 @@ class _TableexState extends State<Tableex> {
                 width: 10.0,
               ),
               whitebackground2(day),
-              SizedBox(
-                height: 5.0,
-              ),
-              whitebackground(date, month),
+              
             ],
           ),
           SizedBox(

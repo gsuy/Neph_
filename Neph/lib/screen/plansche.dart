@@ -26,14 +26,14 @@ class _PlanState extends State<Plan> {
   Widget customButton() {
     return Container(
       width: 250,
-      height: 40,
+      height: 60,
       child: RaisedButton(
-          color: Colors.white,
+          color: const Color(0x00fff6f6),
           child: Text('Custom',
               style: TextStyle(
                 fontFamily: 'Segoe UI',
                 fontSize: 20,
-                color: const Color(0xff4f6165),
+                color: Colors.white,
               ),
               textAlign: TextAlign.left),
           onPressed: () {
@@ -42,14 +42,14 @@ class _PlanState extends State<Plan> {
             Navigator.of(context).push(materialPageRoute);
           },
           shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(30.0))),
+              borderRadius: new BorderRadius.circular(20.0))),
     );
   }
 
   Widget autoButton() {
     return Container(
       width: 250,
-      height: 40,
+      height: 60,
       child: RaisedButton(
           color: const Color(0xff4f6165),
           child: Text(
@@ -67,7 +67,7 @@ class _PlanState extends State<Plan> {
             Navigator.of(context).push(materialPageRoute);
           },
           shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(30.0))),
+              borderRadius: new BorderRadius.circular(20.0))),
     );
   }
 

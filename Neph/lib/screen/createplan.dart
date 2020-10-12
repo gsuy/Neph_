@@ -35,10 +35,10 @@ class _CreateplanState extends State<Createplan> {
     );
   }
 
-  Widget whitebackground(String date, String month) {
+  Widget whitebackground(String day) {
     return Container(
-      width: 90,
-      height: 70,
+      width: 80,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(21.0),
         color: const Color(0xffffffff),
@@ -62,18 +62,12 @@ class _CreateplanState extends State<Createplan> {
             ),
             children: [
               TextSpan(
-                text: date,
+                text: day,
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              TextSpan(
-                text: month,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              
             ],
           ),
           textAlign: TextAlign.center,
@@ -143,11 +137,11 @@ class _CreateplanState extends State<Createplan> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               
-              whitebackground2(day),
-              SizedBox(
-                height: 5.0,
+  
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: whitebackground(day),
               ),
-              whitebackground(date, month),
             ],
           ),
           SizedBox(
@@ -172,9 +166,9 @@ class _CreateplanState extends State<Createplan> {
               Align( alignment: Alignment.topRight,
                                   child: IconButton(
                         icon: Icon(
-                          Icons.sync,
+                          Icons.repeat,
                           size: 30,
-                          color: Colors.red.shade600,
+                          color: Colors.teal.shade700,
                         ),
                         color: Colors.teal.shade900,
                         onPressed: () {
@@ -210,11 +204,12 @@ class _CreateplanState extends State<Createplan> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              whitebackground2(day),
-              SizedBox(
-                height: 5.0,
+          
+             
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: whitebackground(day),
               ),
-              whitebackground(date, month),
             ],
           ),
           SizedBox(
@@ -243,12 +238,13 @@ class _CreateplanState extends State<Createplan> {
             children: [
               Align( alignment: Alignment.topRight,
                                   child: IconButton(
+                                    
                         icon: Icon(
-                          Icons.sync,
+                          Icons.repeat,
                           size: 30,
-                          color: Colors.greenAccent.shade700,
+                          color: Colors.teal.shade700,
                         ),
-                        color: Colors.teal.shade900,
+                        //color: Colors.teal.shade900,
                         onPressed: () {
                           setState(() {
                             newselectday[index] = !newselectday[index];
@@ -311,7 +307,7 @@ class _CreateplanState extends State<Createplan> {
       width: 250,
       height: 40,
       child: RaisedButton(
-          color: Colors.red,
+          color: Colors.teal.shade700,
           child: Text(
             'Auto generate',
             style: TextStyle(
