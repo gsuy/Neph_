@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
   Future<void> fetchData() => Future.delayed(Duration(seconds: 4), () {
       if(workoutList.length != 0){
         ready = true;
-        
+        // newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
       }else{
         fetchData();
       }

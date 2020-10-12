@@ -17,103 +17,25 @@ List<List<List<String>>> allpartworkout = [];
 List<List<String>> allformofweek  = []; 
 List<List<List<String>>> mempartworkout = [];
 
-int countdayexercise = 2;
+int countdayexercise = 0;
 int maxformperday=0;
 int repperset=0;
-int weigth =0;
+int weight =0;
 int sets =0;
-String q1 = 'Beginner';
-String q2 = 'Gain Muscle';
+String q1 = '';
+String q2 = '';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  Future<void> setisWorkoutDay()async{
-    for (var i = 0; i < day.length; i++) {
-      firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({'isWorkout_Day': isWorkoutDay[i]});
-    }
-  }
-
-  Future<void> setworkoutListday()async{
-      workoutListday = new List<List<List<dynamic>>>.from(newWorkoutListday);
-      for(var i = 0; i < workoutListday.length; i++){
-        firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).set({'isWorkout_Day': isWorkoutDay[i]});
-        // firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({'isWorkout_Day': isWorkoutDay[i]});
-        for (var ii = 0; ii < workoutListday[i].length;ii++) {
-          firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({ii.toString():[workoutListday[i][ii][0],workoutListday[i][ii][1],workoutListday[i][ii][2],workoutListday[i][ii][3]]});
-        }
-      }
-  }
-
-  Future<void> resetWorkoulist()async{
-    for(var i =0; i< day.length;i++){
-      if(isWorkoutDay[i] == false){
-        firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).set({'isWorkout_Day':false});
-      }
-    }
-  }
-
-  Future<void> loadworkoutListday()async{
-    workoutListday = [];
-    newWorkoutListday = [];
-    List<List<dynamic>> temp = [];
-    // List<List<dynamic>> temp2 = [];
-    for (var i = 0; i < day.length; i++) {
-      temp = [];
-      await firestore.collection('Users').doc(id).collection('Schedule').doc(day[i]).get().then((value) => value.data().forEach((key, value) { 
-        if(key != 'isWorkout_Day'){
-          temp.add(value);
-          // temp2.add(value);
-        }else{
-          isWorkoutDay[i] = value;
-        }
-      }));
-      workoutListday.add(new List<List<dynamic>>.from(temp));
-      newWorkoutListday.add(new List<List<dynamic>>.from(temp));
-    }
-  }
-
-  // Future<void> loadisWorkoutDay()async{
-  //   for (var i = 0; i < day.length; i++) {
-  //     await firestore.collection('Users').doc(id).collection('Schedule').doc(day[i]).get().then((value) => isWorkoutDay[i] = value.get('isWorkout_Day'));
-  //   }
-  // }
-
-  Future<void> loadUser()async{
-      await firestore.collection('Users').doc(id).get().then((value){
-        user['Age'] = value.get('Age');
-        user['Email'] = value.get('Email');
-        user['Goal'] = value.get('Goal');
-        user['Height'] = value.get('Height');
-        user['Name'] = value.get('Name');
-        user['Password'] = value.get('Password');
-        user['Sex'] = value.get('Sex');
-        user['Weight'] = value.get('Weight');
-        user['haveSchedule'] = value.get('haveSchedule');
-      });
-  }
-
-  Future<void> loadWorkoutList()async{
-    workoutList = [];
-    for (var i = 0; i < categoryAll.length; i++) {
-      await firestore.collection('WorkoutList').doc('Category').collection(categoryAll[i]).snapshots().listen((event) {
-        List<DocumentSnapshot> snapshots = event.docs;
-        List<String> temp = [];
-        for (var snapshot in snapshots) {
-          temp = [];
-          temp.add(snapshot.get('Name'));
-          temp.add(snapshot.get('Image'));
-          temp.add(snapshot.get('Description'));
-          temp.add(snapshot.get('Link'));
-          workoutList.add(temp);
-        }
-      });
-    }
-  }
-
 
 void autogenfunction(){
     allformofweek.clear();
     resetvalue();
+    maxformperday=0;
+    repperset=0;
+    weight =0;
+    sets =0;
+    // q1 = '';
+    // q2 = '';
     countdayexercise=0;
     print('q1 = $q1');
     print('q2 = $q2');
@@ -126,10 +48,10 @@ void autogenfunction(){
     int part = 2;
     
     if (q1 == 'Beginner'){
-      weigth = 5;
+      weight = 5;
       sets = 3;
     }else{
-      weigth = 0;
+      weight = 0;
       sets = 4;
     }
     if (q2 == 'Gain Muscle'){
@@ -187,14 +109,8 @@ void autogenfunction(){
               changeform=0;
               changeform=saveform+k;
             }
-            //int xx = mempartworkout[changeform].length;
-            //print('changeform = $changeform');
-            //print('maxformperday = $maxformperday');
-            //print('allpartworkout = $allpartworkout');
-            //print('mempartworkout = $mempartworkout');
             
             for(int j =0;j<mempartworkout[changeform].length;j++){
-              //print('do it j= $j');
               if(maxformperday <= 0){
                 break;
               }
@@ -223,6 +139,90 @@ void autogenfunction(){
     print('That finish');
     print('All exercise ===> $allformofweek');
 }
+
+  Future<void> setisWorkoutDay()async{
+    for (var i = 0; i < day.length; i++) {
+      firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({'isWorkout_Day': isWorkoutDay[i]});
+    }
+  }
+
+  Future<void> setworkoutListday()async{
+      // workoutListday = new List<List<List<dynamic>>>.from(newWorkoutListday);
+      for(var i = 0; i < workoutListday.length; i++){
+        firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).set({'isWorkout_Day': isWorkoutDay[i]});
+        // firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({'isWorkout_Day': isWorkoutDay[i]});
+        for (var ii = 0; ii < workoutListday[i].length;ii++) {
+          firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({ii.toString():[workoutListday[i][ii][0],workoutListday[i][ii][1],workoutListday[i][ii][2],workoutListday[i][ii][3]]});
+        }
+      }
+  }
+
+  Future<void> resetWorkoutlist()async{
+    for(var i =0; i< day.length;i++){
+      if(isWorkoutDay[i] == false){
+        firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).set({'isWorkout_Day':false});
+      }
+    }
+  }
+
+  Future<void> loadworkoutListday()async{
+    workoutListday = [];
+    newWorkoutListday = [];
+    List<List<dynamic>> temp = [];
+    // List<List<dynamic>> temp2 = [];
+    for (var i = 0; i < day.length; i++) {
+      temp = [];
+      await firestore.collection('Users').doc(id).collection('Schedule').doc(day[i]).get().then((value) => value.data().forEach((key, value) { 
+        if(key != 'isWorkout_Day'){
+          temp.add(value);
+          // temp2.add(value);
+        }else{
+          isWorkoutDay[i] = value;
+        }
+      }));
+      workoutListday.add(new List<List<dynamic>>.from(temp));
+      newWorkoutListday.add(new List<List<dynamic>>.from(temp));
+    }
+    print('www => $workoutListday');
+  }
+
+  // Future<void> loadisWorkoutDay()async{
+  //   for (var i = 0; i < day.length; i++) {
+  //     await firestore.collection('Users').doc(id).collection('Schedule').doc(day[i]).get().then((value) => isWorkoutDay[i] = value.get('isWorkout_Day'));
+  //   }
+  // }
+
+  Future<void> loadUser()async{
+      await firestore.collection('Users').doc(id).get().then((value){
+        user['Age'] = value.get('Age');
+        user['Email'] = value.get('Email');
+        user['Goal'] = value.get('Goal');
+        user['Height'] = value.get('Height');
+        user['Name'] = value.get('Name');
+        user['Password'] = value.get('Password');
+        user['Sex'] = value.get('Sex');
+        user['Weight'] = value.get('Weight');
+        user['haveSchedule'] = value.get('haveSchedule');
+      });
+  }
+
+  Future<void> loadWorkoutList()async{
+    workoutList = [];
+    for (var i = 0; i < categoryAll.length; i++) {
+      await firestore.collection('WorkoutList').doc('Category').collection(categoryAll[i]).snapshots().listen((event) {
+        List<DocumentSnapshot> snapshots = event.docs;
+        List<String> temp = [];
+        for (var snapshot in snapshots) {
+          temp = [];
+          temp.add(snapshot.get('Name'));
+          temp.add(snapshot.get('Image'));
+          temp.add(snapshot.get('Description'));
+          temp.add(snapshot.get('Link'));
+          workoutList.add(temp);
+        }
+      });
+    }
+  }
 
 Future<void> loadCategory()async{
   List<List<String>> back = [];
@@ -320,6 +320,7 @@ Future<void> loadCategory()async{
     // print('load time mempartworkout = $mempartworkout');
     // print('load time allpartworkout = $allpartworkout');
 }
+
 void resetvalue(){
   for (int i = 0 ; i<mempartworkout.length;i++){
     for (int j = 0 ; j<mempartworkout[i].length;j++){

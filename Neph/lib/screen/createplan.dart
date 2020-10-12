@@ -288,11 +288,14 @@ class _CreateplanState extends State<Createplan> {
             setisWorkoutDay();
             // workoutListday = newWorkoutListday;
             // newWorkoutListday = new a;
+
+            workoutListday = new List<List<List<dynamic>>>.from(newWorkoutListday);
             setworkoutListday();
-            resetWorkoulist();
+            resetWorkoutlist();
+
             // workoutListday = new List<List<List<dynamic>>>.from(newWorkoutListday);
-            newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
-            setworkoutListday();
+            // newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
+            // setworkoutListday();
             Navigator.popUntil(context, (route) => false);
             MaterialPageRoute materialPageRoute =
                 MaterialPageRoute(builder: (BuildContext context) => Home());
