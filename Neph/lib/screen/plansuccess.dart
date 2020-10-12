@@ -37,10 +37,10 @@ class _SucplanState extends State<Sucplan> {
     );
   }
 
-  Widget whitebackground(String date, String month) {
+  Widget whitebackground(String day) {
     return Container(
-      width: 90,
-      height: 70,
+      width: 80,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(21.0),
         color: const Color(0xffffffff),
@@ -64,15 +64,8 @@ class _SucplanState extends State<Sucplan> {
             ),
             children: [
               TextSpan(
-                text: date,
+                text: day,
                 style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              TextSpan(
-                text: month,
-                style: TextStyle(
-                  fontSize: 25,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -147,44 +140,42 @@ class _SucplanState extends State<Sucplan> {
               SizedBox(
                 width: 10.0,
               ),
-              whitebackground2(day),
-              SizedBox(
-                height: 5.0,
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: whitebackground(day),
               ),
-              whitebackground(date, month),
             ],
           ),
           SizedBox(
             width: 60.0,
           ),
           InkWell(
-          child: Text(
-            type,
-            style: TextStyle(
-              fontFamily: 'Segoe UI',
-              fontSize: 24,
-              color: const Color(0xff394548),
+            child: Text(
+              type,
+              style: TextStyle(
+                fontFamily: 'Segoe UI',
+                fontSize: 24,
+                color: const Color(0xff394548),
+              ),
+              textAlign: TextAlign.left,
             ),
-            textAlign: TextAlign.left,
+            onTap: () {
+              if (type == 'Exercise') {
+                MaterialPageRoute materialPageRoute = MaterialPageRoute(
+                    builder: (BuildContext context) => Tableex(day));
+                Navigator.of(context).push(materialPageRoute);
+                // Navigator.of(context).pop();
+              }
+            },
           ),
-          onTap: () {
-            if(type=='Exercise'){
-              MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Tableex(day));
-            Navigator.of(context).push(materialPageRoute);
-            // Navigator.of(context).pop();
-            }
-          },
-        ),
-          
         ]));
   }
-  
-  Widget show(String day, String date, String month, bool isWorkout){
-    if(isWorkout == true){
-        return bluebox(day, date, month,'Exercise');
-    }else{
-        return bluebox(day, date, month,'Rest');
+
+  Widget show(String day, String date, String month, bool isWorkout) {
+    if (isWorkout == true) {
+      return bluebox(day, date, month, 'Exercise');
+    } else {
+      return bluebox(day, date, month, 'Rest');
     }
   }
 
@@ -214,18 +205,18 @@ class _SucplanState extends State<Sucplan> {
             color: Colors.black,
           ),
           color: Colors.teal.shade900,
-          onPressed: () async{
-                bool reset = await Navigator.push(
-                    context,
-                    MaterialPageRoute<bool>(
-                        builder: (BuildContext context) => Createplan()));
-                // print('reset====>>>>$reset');
-                if(reset==null){
-                  setState(() {
-                    // newWorkoutListday = new List<List<List<dynamic>>>.of(workoutListday);
-                  });
-                }
-              }),
+          onPressed: () async {
+            bool reset = await Navigator.push(
+                context,
+                MaterialPageRoute<bool>(
+                    builder: (BuildContext context) => Createplan()));
+            // print('reset====>>>>$reset');
+            if (reset == null) {
+              setState(() {
+                // newWorkoutListday = new List<List<List<dynamic>>>.of(workoutListday);
+              });
+            }
+          }),
     );
   }
 
