@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:neph/screen/backend.dart';
 import 'package:flutter/material.dart';
 
 
@@ -20,7 +20,16 @@ class _ProfileState extends State<Profile> {
       //color: Colors.cyan,
     );
   }
-
+  // user['Age'] = value.get('Age');
+  //       user['Email'] = value.get('Email');
+  //       user['Goal'] = value.get('Goal');
+  //       user['Height'] = value.get('Height');
+  //       user['Name'] = value.get('Name');
+  //       user['Password'] = value.get('Password');
+  //       user['Sex'] = value.get('Sex');
+  //       user['Weight'] = value.get('Weight');
+  //       user['haveSchedule'] = value.get('haveSchedule');
+  //       user['Member'] = value.get('Member');
   Widget fullnamefield() {
     return Container(
         width: 300.0,
@@ -40,7 +49,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: 'John Doe',
+              labelText: user['Name'],
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -96,7 +105,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: 'johndoe@mail.com',
+              labelText: user['Email'],
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -208,7 +217,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: '09/09/1987',
+              labelText: user['Birthday'],
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -264,7 +273,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: 'Male',
+              labelText: user['Sex'],
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -320,7 +329,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: '22',
+              labelText: user['Age'].toString(),
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -376,7 +385,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: '70',
+              labelText: user['Weight'].toString(),
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -432,7 +441,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: 'United State',
+              labelText: user['Country'],
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
