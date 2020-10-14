@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 String id = '';
 List<String> day = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 List<String> categoryAll = ['Back','Biceps Arm','Chest','Leg','Shoulder','Triceps Arm'];
-Map<String,dynamic> user = {'Age':null,'Email':null,'Goal':null,'Height':null,'Name':null,'Password':null,'Sex':null,'Weight':null,'haveSchedule':null};
+Map<String,dynamic> user = {'Name':null,'Age':null,'Gender':null,'Goal':null,'Height':null,'Weight':null,'haveSchedule':null,'Health Conditions':null,'Member':null};
 List<List<String>> workoutList = [];
 List<List<List<dynamic>>> workoutListday =  [];
 List<List<List<dynamic>>> newWorkoutListday = [];
@@ -24,8 +24,6 @@ int weight =0;
 int sets =0;
 String q1 = '';
 String q2 = '';
-
-FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 void autogenfunction(){
     allformofweek.clear();
@@ -141,23 +139,26 @@ void autogenfunction(){
 }
 
   Future<void> setisWorkoutDay()async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
     for (var i = 0; i < day.length; i++) {
       firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({'isWorkout_Day': isWorkoutDay[i]});
     }
   }
 
   Future<void> setworkoutListday()async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
       // workoutListday = new List<List<List<dynamic>>>.from(newWorkoutListday);
-      for(var i = 0; i < workoutListday.length; i++){
-        firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).set({'isWorkout_Day': isWorkoutDay[i]});
-        // firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({'isWorkout_Day': isWorkoutDay[i]});
-        for (var ii = 0; ii < workoutListday[i].length;ii++) {
-          firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({ii.toString():[workoutListday[i][ii][0],workoutListday[i][ii][1],workoutListday[i][ii][2],workoutListday[i][ii][3]]});
-        }
+    for(var i = 0; i < workoutListday.length; i++){
+      firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).set({'isWorkout_Day': isWorkoutDay[i]});
+      // firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({'isWorkout_Day': isWorkoutDay[i]});
+      for (var ii = 0; ii < workoutListday[i].length;ii++) {
+        firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({ii.toString():[workoutListday[i][ii][0],workoutListday[i][ii][1],workoutListday[i][ii][2],workoutListday[i][ii][3]]});
       }
+    }
   }
 
   Future<void> resetWorkoutlist()async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
     for(var i =0; i< day.length;i++){
       if(isWorkoutDay[i] == false){
         firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).set({'isWorkout_Day':false});
@@ -166,6 +167,7 @@ void autogenfunction(){
   }
 
   Future<void> loadworkoutListday()async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
     workoutListday = [];
     newWorkoutListday = [];
     List<List<dynamic>> temp = [];
@@ -183,7 +185,7 @@ void autogenfunction(){
       workoutListday.add(new List<List<dynamic>>.from(temp));
       newWorkoutListday.add(new List<List<dynamic>>.from(temp));
     }
-    print('www => $workoutListday');
+    // print('www => $workoutListday');
   }
 
   // Future<void> loadisWorkoutDay()async{
@@ -193,20 +195,22 @@ void autogenfunction(){
   // }
 
   Future<void> loadUser()async{
-      await firestore.collection('Users').doc(id).get().then((value){
-        user['Age'] = value.get('Age');
-        user['Email'] = value.get('Email');
-        user['Goal'] = value.get('Goal');
-        user['Height'] = value.get('Height');
-        user['Name'] = value.get('Name');
-        user['Password'] = value.get('Password');
-        user['Sex'] = value.get('Sex');
-        user['Weight'] = value.get('Weight');
-        user['haveSchedule'] = value.get('haveSchedule');
-      });
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    await firestore.collection('Users').doc(id).get().then((value){
+      user['Name'] = value.get('Name');
+      user['Age'] = value.get('Age');
+      user['Gender'] = value.get('Gender');
+      user['Goal'] = value.get('Goal');
+      user['Height'] = value.get('Height');
+      user['Weight'] = value.get('Weight');
+      user['haveSchedule'] = value.get('haveSchedule');
+      user['Health Conditions'] = value.get('Health Conditions');
+      user['Member'] = value.get('Member');
+    });
   }
 
   Future<void> loadWorkoutList()async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
     workoutList = [];
     for (var i = 0; i < categoryAll.length; i++) {
       await firestore.collection('WorkoutList').doc('Category').collection(categoryAll[i]).snapshots().listen((event) {
@@ -218,6 +222,7 @@ void autogenfunction(){
           temp.add(snapshot.get('Image'));
           temp.add(snapshot.get('Description'));
           temp.add(snapshot.get('Link'));
+          temp.add(snapshot.get('member').toString());
           workoutList.add(temp);
         }
       });
@@ -225,6 +230,7 @@ void autogenfunction(){
   }
 
 Future<void> loadCategory()async{
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<List<String>> back = [];
   List<List<String>> leg = [];
   List<List<String>> biceparm = [];

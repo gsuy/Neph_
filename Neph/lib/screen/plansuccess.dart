@@ -189,9 +189,10 @@ class _SucplanState extends State<Sucplan> {
           ),
           color: Colors.teal.shade900,
           onPressed: () {
-            Navigator.popUntil(context, (route) => false);
-            Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) => Home()));
+            // Navigator.popUntil(context, (route) => false);
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (BuildContext context) => Home()));
+            Navigator.pop(context);
           }),
     );
   }
