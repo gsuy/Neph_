@@ -21,7 +21,7 @@ class _Signup2State extends State<Signup2> {
   final inputAge = TextEditingController();
   final inputWeight = TextEditingController();
   final inputHeight = TextEditingController();
-  final inputGoal = TextEditingController();
+  // final inputGoal = TextEditingController();
   final inputHealthCon = TextEditingController();
 
   void validation(){
@@ -47,7 +47,8 @@ class _Signup2State extends State<Signup2> {
 
     if(_value == false && _value2 == false){
       hint.add('Please select your gender.');
-      _value == true? inputGender = 'Female': inputGender = 'Male';
+    }else{
+       _value ? inputGender = 'Female': inputGender = 'Male';
     }
 
     if(hint.length != 0){
@@ -113,60 +114,60 @@ class _Signup2State extends State<Signup2> {
   }
 
 
-  Widget goalfield() {
-    return Container(
-        width: 300.0,
-        height: 40,
-        child: new Theme(
-          data: new ThemeData(
-            primaryColor: Colors.white,
-            primaryColorDark: Colors.white,
-          ),
-          child: new TextField(
-            controller: inputGoal,
-            decoration: new InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 3.0),
-              ),
-              labelText: 'Goal',
-              labelStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-        ));
-  }
+  // Widget goalfield() {
+  //   return Container(
+  //       width: 300.0,
+  //       height: 40,
+  //       child: new Theme(
+  //         data: new ThemeData(
+  //           primaryColor: Colors.white,
+  //           primaryColorDark: Colors.white,
+  //         ),
+  //         child: new TextField(
+  //           controller: inputGoal,
+  //           decoration: new InputDecoration(
+  //             filled: true,
+  //             fillColor: Colors.white,
+  //             enabledBorder: new OutlineInputBorder(
+  //                 borderSide: new BorderSide(color: Colors.white)),
+  //             focusedBorder: OutlineInputBorder(
+  //               borderSide: BorderSide(color: Colors.white, width: 3.0),
+  //             ),
+  //             labelText: 'Goal',
+  //             labelStyle: TextStyle(color: Colors.grey),
+  //           ),
+  //         ),
+  //       ));
+  // }
 
-  Widget goalbar() {
-    return Container(
-      child: Column(
-        //crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            width: 30.0,
-          ),
-          Align(
-            alignment: Alignment(-0.8, 0),
-            child: Text(
-              'Goal',
-              style: TextStyle(
-                fontFamily: 'Segoe UI',
-                fontSize: 15,
-                color: const Color(0xff394548),
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          goalfield(),
-        ],
-      ),
-    );
-  }
+  // Widget goalbar() {
+  //   return Container(
+  //     child: Column(
+  //       //crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         SizedBox(
+  //           width: 30.0,
+  //         ),
+  //         Align(
+  //           alignment: Alignment(-0.8, 0),
+  //           child: Text(
+  //             'Goal',
+  //             style: TextStyle(
+  //               fontFamily: 'Segoe UI',
+  //               fontSize: 15,
+  //               color: const Color(0xff394548),
+  //             ),
+  //             textAlign: TextAlign.left,
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: 10.0,
+  //         ),
+  //         goalfield(),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget weightfield() {
     return Container(
@@ -551,10 +552,10 @@ class _Signup2State extends State<Signup2> {
               height: 5.0,
             ),
             healthbar(),
-            SizedBox(
-              height: 5.0,
-            ),
-            goalbar(),
+            // SizedBox(
+            //   height: 5.0,
+            // ),
+            // goalbar(),
             SizedBox(
               height: 5.0,
             ),
@@ -585,7 +586,7 @@ class _Signup2State extends State<Signup2> {
           onPressed: () {
             validation();
             if(hint.length == 0){
-              createUser(inputName.text,inputAge.text.trim(),inputWeight.text.trim(),inputHeight.text.trim(),inputGender,inputGoal.text,inputHealthCon.text).then((value){
+              createUser(inputName.text,inputAge.text.trim(),inputWeight.text.trim(),inputHeight.text.trim(),inputGender,inputHealthCon.text).then((value){
               MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => Home());
               Navigator.of(context).pushAndRemoveUntil(materialPageRoute,(Route<dynamic> route) => false);
             });

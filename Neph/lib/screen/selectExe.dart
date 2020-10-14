@@ -20,6 +20,7 @@ class _SelectState extends State<Select>{
   // Map<List<String>,List<String>> show;
   List<Map<List<String>,List<String>>> ss;
   final input = TextEditingController();
+  bool showall = false;
 
 @override
 void initState() {
@@ -28,6 +29,7 @@ void initState() {
   // loadWorkoutList().then((value){setState(() {});});
   // workoutList.add(new Category(snapshot.get('Name'), snapshot.get('Image'), snapshot.get('Description')));
   // fetchData();
+  user['Member'] ? showall = true : showall = false;
 }
 
 Future<void> fetchData() => Future.delayed(Duration(seconds: 1), () {
@@ -89,10 +91,11 @@ Widget searchPart(){
     );
   }
 
-Widget tip(String des){
-  return Align(
-    alignment: Alignment.topRight,
-    child: Tooltip(
+Widget tip(String des,bool isActive){
+  if(isActive){
+    return Align(
+      alignment: Alignment.topRight,
+      child: Tooltip(
                   child: IconButton(icon: Icon(Icons.info,size: 30,),onPressed: (){}),
                   message: des,
                   padding: EdgeInsets.all(20),
@@ -106,7 +109,26 @@ Widget tip(String des){
                   // preferBelow: true,
                   verticalOffset: 20,
                 )
-  );
+    );
+  }else{
+    return Align(
+      alignment: Alignment.topRight,
+      child: Tooltip(
+                  child: IconButton(icon: Icon(Icons.lock,size: 30,),onPressed: (){}),
+                  message: 'Only neph member!',
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20),
+                  showDuration: Duration(seconds: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.teal[100].withOpacity(0.9),
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  ),
+                  textStyle: TextStyle(color: Colors.black),
+                  // preferBelow: true,
+                  verticalOffset: 20,
+                )
+    );
+  }
 }
 
   Widget showView(){
@@ -129,22 +151,26 @@ Widget tip(String des){
                       children: [
                         GestureDetector(
                           onDoubleTap: (){
-                            bool temp = false;
-                            print('cilck left!!!');
-                            for (var i in newWorkoutListday[toDay]) {
-                              if(i[0] == workoutList[index*2][0]){
-                                temp = true;
-                              }
-                            }
-                            if(temp==false){
-                              setState(() {
-                                newWorkoutListday[toDay].add([workoutList[index*2][0],'0','0','0']);
-                                print('add to new: $newWorkoutListday');
-                                print('from main: $workoutListday');
-                                Navigator.pop(context,true);
-                              });
+                            if(workoutList[index*2][4] == 'true' && user['Member'] == false){
+
                             }else{
-                              Navigator.pop(context,true);
+                              bool temp = false;
+                              // print('cilck left!!!');
+                              for (var i in newWorkoutListday[toDay]) {
+                                if(i[0] == workoutList[index*2][0]){
+                                  temp = true;
+                                }
+                              }
+                              if(temp==false){
+                                setState(() {
+                                  newWorkoutListday[toDay].add([workoutList[index*2][0],'0','0','0']);
+                                  print('add to new: $newWorkoutListday');
+                                  print('from main: $workoutListday');
+                                  Navigator.pop(context,true);
+                                });
+                              }else{
+                                Navigator.pop(context,true);
+                              }
                             }
                             // MaterialPageRoute(
                             //   builder: (BuildContext context) => Tableex('Tu'));
@@ -175,8 +201,11 @@ Widget tip(String des){
                         SizedBox(
                               width: 60.0,
                             ),
-                            
-                          tip(workoutList[index*2][2]),
+                        if(workoutList[index*2][4] == 'true' && user['Member'] == false)(
+                          tip(workoutList[index*2][2],false)
+                        )else(
+                          tip(workoutList[index*2][2],true)
+                        ),
                       ],
                     ),                    
 
@@ -189,22 +218,26 @@ Widget tip(String des){
                       children: [
                         GestureDetector(
                           onDoubleTap: (){
-                            bool temp = false;
-                            print('cilck right!!!');
-                            for (var i in newWorkoutListday[toDay]) {
-                              if(i[0] == workoutList[index*2+1][0]){
-                                temp = true;
-                              }
-                            }
-                            if(temp==false){
-                              setState(() {
-                                newWorkoutListday[toDay].add([workoutList[index*2+1][0],'0','0','0']);
-                                print('add to new: $newWorkoutListday');
-                                print('from main: $workoutListday');
-                                Navigator.pop(context,true);
-                              });
+                            if(workoutList[(index*2)+1][4] == 'true' && user['Member'] == false){
+
                             }else{
-                              Navigator.pop(context,true);
+                              bool temp = false;
+                              // print('cilck right!!!');
+                              for (var i in newWorkoutListday[toDay]) {
+                                if(i[0] == workoutList[index*2+1][0]){
+                                  temp = true;
+                                }
+                              }
+                              if(temp==false){
+                                setState(() {
+                                  newWorkoutListday[toDay].add([workoutList[index*2+1][0],'0','0','0']);
+                                  print('add to new: $newWorkoutListday');
+                                  print('from main: $workoutListday');
+                                  Navigator.pop(context,true);
+                                });
+                              }else{
+                                Navigator.pop(context,true);
+                              }
                             }
                           },
                           child: Container(
@@ -233,8 +266,11 @@ Widget tip(String des){
                         SizedBox(
                               width: 60.0,
                             ),
-                            
-                          tip(workoutList[(index*2)+1][2]),
+                        if(workoutList[(index*2)+1][4] == 'true' && user['Member'] == false)(
+                          tip(workoutList[(index*2)+1][2],false)
+                        )else(
+                          tip(workoutList[(index*2)+1][2],true)
+                        ),
                       ],
                     ),    
                   ])
