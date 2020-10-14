@@ -2,14 +2,23 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:neph/screen/home.dart';
+import 'package:neph/screen/auth.dart';
 
 class Signin extends StatefulWidget {
+  final bool isFail;
+  Signin(this.isFail);
   @override
-  _SigninState createState() => _SigninState();
+  _SigninState createState() => _SigninState(this.isFail);
 }
 
 class _SigninState extends State<Signin> {
+  bool isFail;
+  _SigninState(this.isFail);
+  final inputEmail = TextEditingController();
+  final inputPass = TextEditingController();
+  List<String> hint = [];
   //Medthod
+  
 
   Widget usernamefield() {
     return Container(
@@ -19,7 +28,9 @@ class _SigninState extends State<Signin> {
             primaryColor: Colors.white,
             primaryColorDark: Colors.white,
           ),
-          child: new TextField(
+          // child: TextFormField
+          child: TextFormField(
+              controller: inputEmail,
               decoration: new InputDecoration(
                 enabledBorder: new OutlineInputBorder(
                     borderSide: new BorderSide(color: Colors.white)),
@@ -33,7 +44,9 @@ class _SigninState extends State<Signin> {
                   color: Colors.white,
                 ),
               ),
-              style: new TextStyle(fontFamily: "Poppins", color: Colors.white)),
+              style: new TextStyle(fontFamily: "Poppins", color: Colors.white)
+              
+              ),
         ));
   }
 
@@ -46,6 +59,7 @@ class _SigninState extends State<Signin> {
             primaryColorDark: Colors.white,
           ),
           child: new TextField(
+              controller: inputPass,
               decoration: new InputDecoration(
                 enabledBorder: new OutlineInputBorder(
                     borderSide: new BorderSide(color: Colors.white)),
@@ -59,8 +73,25 @@ class _SigninState extends State<Signin> {
                   color: Colors.white,
                 ),
               ),
+              obscureText: true,
               style: new TextStyle(fontFamily: "Poppins", color: Colors.white)),
         ));
+  }
+  void validation(){
+    hint = [];
+    if(inputEmail.text.trim() == ''){
+      hint.add('Please fill your email.');
+    }else if(inputEmail.text.trim().contains('@') == false && inputEmail.text.trim().contains('.') == false){
+      hint.add('Your email is not correct.');
+    }
+    if(inputPass.text.trim() == ''){
+      hint.add('Please fill your password.');
+    }
+    if(hint.length != 0){
+      setState(() {
+        
+      });
+    }
   }
 
   Widget signinButton() {
@@ -79,9 +110,19 @@ class _SigninState extends State<Signin> {
             textAlign: TextAlign.left,
           ),
           onPressed: () {
-            MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Home());
-            Navigator.of(context).push(materialPageRoute);
+              validation();
+              if(hint.length == 0){
+                email = inputEmail.text.trim();
+                pass = inputPass.text.trim();
+                signIn().then((value){
+                  MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => Home());
+                  Navigator.of(context).pushAndRemoveUntil(materialPageRoute,(Route<dynamic> route) => false);
+                }).catchError((onError){
+                  setState(() {
+                    isFail = true;
+                  });
+                });
+              }
           },
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0))),
@@ -116,9 +157,16 @@ class _SigninState extends State<Signin> {
                     ),
                     passwordfield(),
                     SizedBox(
-                      height: 50.0,
+                      height: 20.0,
+                      ),
+                    if(isFail == true)(
+                      Text('Something went wrong, Please try again.',style: TextStyle(fontFamily: "Poppins", color: Colors.red))
                     ),
-                    signinButton()
+                    if(hint.length != 0) for (var i in hint) Text(i,style: TextStyle(fontFamily: "Poppins", color: Colors.red)),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    signinButton(),
                   ],
                 ))),
           ),
