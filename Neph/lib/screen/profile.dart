@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:neph/screen/backend.dart';
 import 'package:flutter/material.dart';
+import 'package:neph/screen/auth.dart';
+import 'package:neph/screen/Login.dart';
 
 
 class Profile extends StatefulWidget {
@@ -20,16 +22,7 @@ class _ProfileState extends State<Profile> {
       //color: Colors.cyan,
     );
   }
-  // user['Age'] = value.get('Age');
-  //       user['Email'] = value.get('Email');
-  //       user['Goal'] = value.get('Goal');
-  //       user['Height'] = value.get('Height');
-  //       user['Name'] = value.get('Name');
-  //       user['Password'] = value.get('Password');
-  //       user['Sex'] = value.get('Sex');
-  //       user['Weight'] = value.get('Weight');
-  //       user['haveSchedule'] = value.get('haveSchedule');
-  //       user['Member'] = value.get('Member');
+
   Widget fullnamefield() {
     return Container(
         width: 300.0,
@@ -142,115 +135,145 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget passwordfield() {
-    return Container(
-        width: 300.0,
-        child: new Theme(
-          data: new ThemeData(
-              primaryColor: const Color(0xff2aafaf),
-              primaryColorDark: const Color(0xff2aafaf),
-              hintColor: const Color(0xff2aafaf)),
-          child: new TextField(
-            decoration: new InputDecoration(
-              enabled: true,
-              filled: true,
-              fillColor: Color(0xffe7f9f9),
-              border: new OutlineInputBorder(
-                borderSide:
-                    new BorderSide(color: const Color(0xff2aafaf), width: 5.0),
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(15.0)),
-              ),
-              labelText: '*******',
-              labelStyle: TextStyle(color: const Color(0xff2aafaf)),
-            ),
-          ),
-        ));
-  }
+  // Widget passwordfield() {
+  //   return Container(
+  //       width: 300.0,
+  //       child: new Theme(
+  //         data: new ThemeData(
+  //             primaryColor: const Color(0xff2aafaf),
+  //             primaryColorDark: const Color(0xff2aafaf),
+  //             hintColor: const Color(0xff2aafaf)),
+  //         child: new TextField(
+  //           decoration: new InputDecoration(
+  //             enabled: true,
+  //             filled: true,
+  //             fillColor: Color(0xffe7f9f9),
+  //             border: new OutlineInputBorder(
+  //               borderSide:
+  //                   new BorderSide(color: const Color(0xff2aafaf), width: 5.0),
+  //               borderRadius:
+  //                   const BorderRadius.all(const Radius.circular(15.0)),
+  //             ),
+  //             labelText: '*******',
+  //             labelStyle: TextStyle(color: const Color(0xff2aafaf)),
+  //           ),
+  //         ),
+  //       ));
+  // }
 
-  Widget passwordbar() {
-    return Container(
-      child: Column(
-        //crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            width: 30.0,
-          ),
-          Align(
-            alignment: Alignment(-0.8, 0),
-            child: Text(
-              'Password',
-              style: TextStyle(
-                fontFamily: 'Arial',
-                fontSize: 14,
-                color: const Color(0xff2aafaf),
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          passwordfield(),
-        ],
-      ),
-    );
-  }
+  // Widget passwordbar() {
+  //   return Container(
+  //     child: Column(
+  //       //crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         SizedBox(
+  //           width: 30.0,
+  //         ),
+  //         Align(
+  //           alignment: Alignment(-0.8, 0),
+  //           child: Text(
+  //             'Password',
+  //             style: TextStyle(
+  //               fontFamily: 'Arial',
+  //               fontSize: 14,
+  //               color: const Color(0xff2aafaf),
+  //               fontWeight: FontWeight.w700,
+  //             ),
+  //             textAlign: TextAlign.left,
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: 10.0,
+  //         ),
+  //         passwordfield(),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget birthfield() {
-    return Container(
-        width: 300.0,
-        child: new Theme(
-          data: new ThemeData(
-              primaryColor: const Color(0xff2aafaf),
-              primaryColorDark: const Color(0xff2aafaf),
-              hintColor: const Color(0xff2aafaf)),
-          child: new TextField(
-            decoration: new InputDecoration(
-              enabled: true,
-              filled: true,
-              fillColor: Color(0xffe7f9f9),
-              border: new OutlineInputBorder(
-                borderSide:
-                    new BorderSide(color: const Color(0xff2aafaf), width: 5.0),
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(15.0)),
-              ),
-              labelText: user['Birthday'],
-              labelStyle: TextStyle(color: const Color(0xff2aafaf)),
-            ),
-          ),
-        ));
-  }
+  // Widget goalfield() {
+  //   return Container(
+  //       width: 300.0,
+  //       child: new Theme(
+  //         data: new ThemeData(
+  //             primaryColor: const Color(0xff2aafaf),
+  //             primaryColorDark: const Color(0xff2aafaf),
+  //             hintColor: const Color(0xff2aafaf)),
+  //         child: new TextField(
+  //           decoration: new InputDecoration(
+  //             enabled: true,
+  //             filled: true,
+  //             fillColor: Color(0xffe7f9f9),
+  //             border: new OutlineInputBorder(
+  //               borderSide:
+  //                   new BorderSide(color: const Color(0xff2aafaf), width: 5.0),
+  //               borderRadius:
+  //                   const BorderRadius.all(const Radius.circular(15.0)),
+  //             ),
+  //             labelText: user['goal'],
+  //             labelStyle: TextStyle(color: const Color(0xff2aafaf)),
+  //           ),
+  //         ),
+  //       ));
+  // }
 
-  Widget birthbar() {
+  // Widget goalbar() {
+  //   return Container(
+  //     child: Column(
+  //       //crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         SizedBox(
+  //           width: 30.0,
+  //         ),
+  //         Align(
+  //           alignment: Alignment(-0.8, 0),
+  //           child: Text(
+  //             'Goal',
+  //             style: TextStyle(
+  //               fontFamily: 'Arial',
+  //               fontSize: 14,
+  //               color: const Color(0xff2aafaf),
+  //               fontWeight: FontWeight.w700,
+  //             ),
+  //             textAlign: TextAlign.left,
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: 10.0,
+  //         ),
+  //         goalfield(),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget signoutButton() {
     return Container(
-      child: Column(
-        //crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            width: 30.0,
-          ),
-          Align(
-            alignment: Alignment(-0.8, 0),
-            child: Text(
-              'Date of Birth',
-              style: TextStyle(
-                fontFamily: 'Arial',
-                fontSize: 14,
-                color: const Color(0xff2aafaf),
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.left,
+      width: 300,
+      height: 40,
+      child: RaisedButton(
+          color: const Color(0xff2aafaf),
+          child: Text(
+            'SIGN OUT',
+            style: TextStyle(
+              fontFamily: 'Segoe UI',
+              fontSize: 16,
+              color: Colors.white,
             ),
+            textAlign: TextAlign.left,
           ),
-          SizedBox(
-            height: 10.0,
-          ),
-          birthfield(),
-        ],
-      ),
+          //elevation: 5,
+          onPressed: () {
+            ready = false;
+            signOut().then((value){
+            MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => Login());
+            Navigator.of(context).pushAndRemoveUntil(materialPageRoute,(Route<dynamic> route) => false);
+            }).catchError((onError){
+              print('error to signout, please try agian.');
+            });
+          },
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(25.0))),
     );
   }
 
@@ -273,7 +296,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: user['Sex'],
+              labelText: user['Gender'],
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -329,7 +352,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: user['Age'].toString(),
+              labelText: user['Age'],
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -385,7 +408,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: user['Weight'].toString(),
+              labelText: user['Weight'],
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -422,7 +445,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget countryfield() {
+  Widget memberfield() {
     return Container(
         width: 300.0,
         child: new Theme(
@@ -441,14 +464,14 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: user['Country'],
+              labelText: user['Member'].toString(),
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
         ));
   }
 
-  Widget countrybar() {
+  Widget memberbar() {
     return Container(
       child: Column(
         //crossAxisAlignment: CrossAxisAlignment.start,
@@ -459,7 +482,7 @@ class _ProfileState extends State<Profile> {
           Align(
             alignment: Alignment(-0.8, 0),
             child: Text(
-              'Country/Region',
+              'Neph member',
               style: TextStyle(
                 fontFamily: 'Arial',
                 fontSize: 14,
@@ -472,7 +495,7 @@ class _ProfileState extends State<Profile> {
           SizedBox(
             height: 10.0,
           ),
-          countryfield(),
+          memberfield(),
         ],
       ),
     );
@@ -497,7 +520,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(15.0)),
               ),
-              labelText: 'Lorem ipsum',
+              labelText: user['Health Conditions'],
               labelStyle: TextStyle(color: const Color(0xff2aafaf)),
             ),
           ),
@@ -555,14 +578,14 @@ class _ProfileState extends State<Profile> {
                     height: 20.0,
                   ),
                   emailbar(),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  passwordbar(),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  birthbar(),
+                  // SizedBox(
+                  //   height: 20.0,
+                  // ),
+                  // passwordbar(),
+                  // SizedBox(
+                  //   height: 20.0,
+                  // ),
+                  // goalbar(),
                   SizedBox(
                     height: 20.0,
                   ),
@@ -578,11 +601,18 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  countrybar(),
+                  memberbar(),
                   SizedBox(
                     height: 20.0,
                   ),
-                  healthbar()
+                  healthbar(),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  signoutButton(),
+                  SizedBox(
+                    height: 20.0,
+                  ),
                 ],
               ))),
         ),

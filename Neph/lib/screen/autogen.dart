@@ -47,9 +47,9 @@ class _AutoState extends State<Auto> {
               ),
               textAlign: TextAlign.left),
           onPressed: () {
-            MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Signin());
-            Navigator.of(context).push(materialPageRoute);
+            // MaterialPageRoute materialPageRoute =
+            //     MaterialPageRoute(builder: (BuildContext context) => Signin());
+            // Navigator.of(context).push(materialPageRoute);
           },
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0))),

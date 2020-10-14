@@ -508,19 +508,14 @@ class _DaygenState extends State<Daygen> {
                 }
               }
               setworkoutListday();
-              wait();
+              updatehaveSchedule();
+              ready = false;
+              MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => Home());
+              Navigator.of(context).pushAndRemoveUntil(materialPageRoute,(Route<dynamic> route) => false);
             }),
       ),
     );
   }
-
-  Future<void> wait() => Future.delayed(Duration(seconds: 2), () {
-          Navigator.popUntil(context, (route) => false);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Home()));
-      });
 
   Widget returnpage() {
     return Container(

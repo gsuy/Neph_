@@ -6,11 +6,9 @@ import 'package:neph/screen/payment.dart';
 import 'package:neph/screen/plansche.dart';
 import 'package:neph/screen/plansuccess.dart';
 import 'package:neph/screen/profile.dart';
-import 'package:neph/screen/signin.dart';
 import 'package:neph/screen/stats.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:neph/screen/backend.dart';
+import 'package:neph/screen/auth.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -18,87 +16,31 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // List<bool> isWorkout = [false,false,false,false,false,false,false];
-  // List<String> day = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  bool check = true;
+  String isNephmember = '';
   //Medthod
   @override
   void initState() {
-    // print("test : $dbRef");
     super.initState();
-    id = '2';
-    print('Connect main!!!.');
+    id = uid;
+    print('Connect Home!!!.');
     print('id ====>>>> $id');
-    // loadisWorkoutDay();
     loadUser();
     loadWorkoutList();
     loadworkoutListday();
     loadCategory();
+    loadMemberWorkout();
     fetchData();
   }
 
-  Future<void> fetchData() => Future.delayed(Duration(seconds: 4), () {
-      if(workoutList.length != 0){
-        ready = true;
-        // newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
-      }else{
-        fetchData();
-      }
-      // print('sadasdadasada====>${user['Name']}');
-      // for (var i in workoutListday) {
-      //   print('testtt ===>>> $i');
-      // }
-      });
-
-  // Future<void> readAllData()async{
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //   // CollectionReference collectionReference = firestore.collection('Users');
-  //   // DocumentReference documentReference = firestore.collection('Users').doc('1');
-
-  //   for (var i = 0; i < 7; i++) {
-  //     await firestore.collection('Users').doc('2').collection('Schedule').doc(day[i]).get().then((value) => isWorkout[i] = value.get('isWorkout_Day'));  
-  //   }
-    // print('====>>>>>>>>>>> $isWorkout');
-    // firestore.collection('Users').get().then((value) => value.docs.forEach((element) { 
-    //   var aa = element.data();
-    //   print('test $aa');
-    //   print('type ${aa.runtimeType}');
-    //   }));
-
-    // var aa = firestore.collection('Users').doc('2').get(); //get data in one doc
-    // aa.then((value) => print('tttttttttttttttttttt     ${value.get('Name')}'));
-
-    // var aa = firestore.collection('Users').doc('2').get(); //get data in all doc
-    // aa.then((value) => print(value.data()));
-
-    // firestore.collection("Users")  //update data or add if change 'update' to 'set'
-    //   .doc("2").collection('Schedule').doc('Monday')
-    //   .update({
-    //     'isWorkout_Day': false
-    //   });
-
-    // firestore.collection("Users").doc('2').delete();
-
-
-
-    // check = collectionReference.doc('1')
-    // await documentReference.snapshots().listen((res) {
-      // List<DataSnapshot> snapshots = res.;
-      // List<CollectionReference> test = res.
-      // print("Start..................");
-      // print('Age  ${res.get('Age')}');
-      // print('Type ${res.runtimeType}'); //DocumentSnapshot
-      // for (var snapshot in res.) {
-      //   // print('snapshot $snapshot');
-      //   // print("Name = ${snapshot.data()}");
-      //   if(snapshot.get('ID')=="1"){
-      //     print("have = ${snapshot.get('haveSchedule')}");
-      //     check = 
-      //   }
-      //   // list.add(snapshot.get('Name'));
-      // }
-    // });
-  // }
+  Future<void> fetchData() => Future.delayed(Duration(seconds: 3), () {
+    if(workoutList.length != 0){
+      ready = true;
+      print('user ===> $user');
+      user['Member'] ? isNephmember = 'neph member':isNephmember = 'free member';
+    }else{
+      fetchData();
+    }
+  });
   
   Widget iconprofile() {
     return Column(
@@ -132,7 +74,7 @@ class _HomeState extends State<Home> {
               ),
               onPressed: () {
                 //allformofweek=[];
-                autogenfunction();
+                // autogenfunction();
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -146,7 +88,7 @@ class _HomeState extends State<Home> {
       children: [
         InkWell(
           child: Text(
-            "John Doe",
+            user['Name'],
             style: TextStyle(
               fontFamily: 'Arial',
               fontSize: 36,
@@ -168,7 +110,7 @@ class _HomeState extends State<Home> {
         InkWell(
           child: Padding(padding: EdgeInsets.only(right: 50),
                       child: Text(
-              "free member",
+              isNephmember,
               style: TextStyle(
                 fontFamily: 'Segoe UI',
                 fontSize: 16,
@@ -178,9 +120,10 @@ class _HomeState extends State<Home> {
             ),
           ),
           onTap: () {
-            MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Payment());
-            Navigator.of(context).push(materialPageRoute);
+            if(user['Member'] == false){
+              MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => Payment());
+              Navigator.of(context).push(materialPageRoute);
+            }
           },
         ),
       ],
@@ -293,9 +236,9 @@ class _HomeState extends State<Home> {
           ),elevation: 5,
           onPressed: () {
               Widget go = Plan();
-              if(check == !true){
+              if(user['haveSchedule'] == true){
                 go = Sucplan();
-              }  
+              }
               MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => go);
               Navigator.of(context).push(materialPageRoute);
           },

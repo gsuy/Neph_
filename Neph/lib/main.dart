@@ -5,6 +5,7 @@ import 'package:neph/screen/backend.dart';
 // import 'package:neph/screen/selectday.dart';
 // import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:neph/screen/signup2.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
@@ -19,6 +20,7 @@ class myapp extends StatelessWidget {
     return MaterialApp(
       // home: Select(),
       home: Login(),
+      // home: Signup2(),
     );
   }
 }
