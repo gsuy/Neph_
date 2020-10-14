@@ -29,6 +29,11 @@ class _SignupState extends State<Signup> {
     if(inputPass.text.trim() != '' && confirmPass.text.trim() != '' && inputPass.text.trim() != confirmPass.text.trim()){
       hint.add('Passwords was different.');
     }
+
+    if(inputPass.text.trim().length < 6){
+      hint.add('Password must be size not less 6');
+    }
+
     if(hint.length != 0){
       setState(() {
         

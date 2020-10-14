@@ -4,15 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 String id = '';
 List<String> day = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 List<String> categoryAll = ['Back','Biceps Arm','Chest','Leg','Shoulder','Triceps Arm'];
-Map<String,dynamic> user = {'Name':null,'Age':null,'Gender':null,'Goal':null,'Height':null,'Weight':null,'haveSchedule':null,'Health Conditions':null,'Member':null};
+Map<String,dynamic> user = {'Name':null,'Age':null,'Gender':null,'Height':null,'Weight':null,'haveSchedule':null,'Health Conditions':null,'Member':null,'Email':null};
 List<List<String>> workoutList = [];
 List<List<List<dynamic>>> workoutListday =  [];
 List<List<List<dynamic>>> newWorkoutListday = [];
+
 // List<List<List<dynamic>>>  = [];
 bool ready = false;
 List<bool> isWorkoutDay = [false,false,false,false,false,false,false];
 
 
+List<List<List<bool>>> memberworkout = [];
 List<List<List<String>>> allpartworkout = [];
 List<List<String>> allformofweek  = []; 
 List<List<List<String>>> mempartworkout = [];
@@ -26,7 +28,9 @@ String q1 = '';
 String q2 = '';
 
 void autogenfunction(){
+    // loadMemberWorkout();
     allformofweek.clear();
+    // loadMemberWorkout();
     resetvalue();
     maxformperday=0;
     repperset=0;
@@ -79,8 +83,10 @@ void autogenfunction(){
     int changeform = 0;
     int saveform = 0;
     int memoryformperday = maxformperday;
+    bool member = user['Member'];
     //print('amount day = $countdayexercise');
-    for (int i = 1; i<=countdayexercise; i++){
+    if(member){
+      for (int i = 1; i<=countdayexercise; i++){
       //print('do it = $i');
       if ( countdayexercise > 5 && q2 != 'Strength'){
         maxformperday = 4;
@@ -134,15 +140,151 @@ void autogenfunction(){
         //changeform ++;
       allformofweek.add(temp);
     }
+
+    }else{
+        if(countdayexercise == 7){
+        part = 2;
+        } /// freeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+        for (int i = 1; i<=countdayexercise; i++){
+        //print('do it = $i');
+        if ( countdayexercise > 5 && q2 != 'Strength'){
+          maxformperday = 4;
+        }else {
+          maxformperday = memoryformperday;
+        }
+        temp = [];
+          for(int x = 0;x<2;x++){
+            //print('do it x= $x');
+            for(int k = 0;k<part;k++){
+              //print('do it k= $k');
+              if(saveform >=4){
+                saveform = 0;
+                resetvalue();
+                //print('Why !!!!!!!!!!!!!!!!!!!!!!');
+              }
+              if  (changeform >= 4){
+                changeform = 0;
+              }
+              if (x == 0){
+                changeform=0;
+                changeform=saveform+k;
+              }else{
+                changeform=0;
+                changeform=saveform+k;
+              }
+              
+              for(int j =0;j<mempartworkout[changeform].length;j++){
+                if(maxformperday <= 0){
+                  break;
+                }
+                if (x == 0){
+                  if( int.parse(mempartworkout[changeform][j][1]) == 3 && mempartworkout[changeform][j][2] != '-1' && maxformperday > 0 && !memberworkout[changeform][j][0]){
+                    temp.add(mempartworkout[changeform][j][0]);
+                    mempartworkout[changeform][j][2]='-1';
+                    maxformperday--;
+                  } 
+                }
+                if(x == 1){
+                  if( maxformperday > 0 && mempartworkout[changeform][j][2] != '-1' && !memberworkout[changeform][j][0]){
+                    temp.add(mempartworkout[changeform][j][0]);
+                    mempartworkout[changeform][j][2]='-1';
+                    maxformperday--;
+                  }
+                }
+              }
+            }
+          }
+          //changeform = part +1;
+          saveform += part;
+          //changeform ++;
+        allformofweek.add(temp);
+            }
+     
+    }
     print('That finish');
     print('All exercise ===> $allformofweek');
 }
+
+  Future<void> loadMemberWorkout()async{
+    List<List<bool>> backbool = [];
+    List<List<bool>> legbool = [];
+    List<List<bool>> biceparmbool = [];
+    List<List<bool>> triceparmbool = [];
+    List<List<bool>> chestbool = [];
+    List<List<bool>> shoulderbool = [];
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+      for (var i = 0; i < categoryAll.length; i++) {
+        await firestore.collection('WorkoutList').doc('Category').collection(categoryAll[i]).snapshots().listen((event) {
+          List<DocumentSnapshot> snapshots = event.docs;
+          List<bool> temp = [];
+          if(categoryAll[i] == 'Back'){
+              for (var snapshot in snapshots) {
+                temp = [];
+                temp.add(snapshot.get('member'));
+                backbool.add(temp);}
+            }
+            else if(categoryAll[i] == 'Biceps Arm'){
+              for (var snapshot in snapshots) {
+                temp = [];
+                temp.add(snapshot.get('member'));
+                biceparmbool.add(temp);
+              }
+            }
+            else if(categoryAll[i] == 'Chest'){
+              for (var snapshot in snapshots) {
+                temp = [];
+                temp.add(snapshot.get('member'));
+                chestbool.add(temp);
+              }
+            }
+            else if(categoryAll[i] == 'Leg'){
+              for (var snapshot in snapshots) {
+                temp = [];
+                temp.add(snapshot.get('member'));
+                legbool.add(temp);
+              }
+            }
+            else if(categoryAll[i] == 'Shoulder'){
+              for (var snapshot in snapshots) {
+                temp = [];
+                temp.add(snapshot.get('member'));
+                shoulderbool.add(temp);
+
+              }
+            }
+            else if(categoryAll[i] == 'Triceps Arm'){
+              for (var snapshot in snapshots) {
+                temp = [];
+                temp.add(snapshot.get('member'));
+                triceparmbool.add(temp);
+              } 
+            }
+        }
+      );
+  }
+    memberworkout.add(backbool);
+    memberworkout.add(shoulderbool);
+    memberworkout.add(chestbool);
+    memberworkout.add(legbool);
+    memberworkout.add(triceparmbool);
+    memberworkout.add(biceparmbool);
+  }
 
   Future<void> setisWorkoutDay()async{
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     for (var i = 0; i < day.length; i++) {
       firestore.collection("Users").doc(id).collection('Schedule').doc(day[i]).update({'isWorkout_Day': isWorkoutDay[i]});
     }
+  }
+
+  Future<void> updatehaveSchedule()async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    firestore.collection("Users").doc(id).update({'haveSchedule': true});
+  }
+
+  Future<void> updateMember()async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    firestore.collection("Users").doc(id).update({'Member': true});
   }
 
   Future<void> setworkoutListday()async{
@@ -200,12 +342,12 @@ void autogenfunction(){
       user['Name'] = value.get('Name');
       user['Age'] = value.get('Age');
       user['Gender'] = value.get('Gender');
-      user['Goal'] = value.get('Goal');
       user['Height'] = value.get('Height');
       user['Weight'] = value.get('Weight');
       user['haveSchedule'] = value.get('haveSchedule');
       user['Health Conditions'] = value.get('Health Conditions');
       user['Member'] = value.get('Member');
+      user['Email'] = value.get('Email');
     });
   }
 
@@ -335,3 +477,4 @@ void resetvalue(){
     }
   }
 }
+

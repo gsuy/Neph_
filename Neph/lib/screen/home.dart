@@ -16,6 +16,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String isNephmember = '';
   //Medthod
   @override
   void initState() {
@@ -27,13 +28,15 @@ class _HomeState extends State<Home> {
     loadWorkoutList();
     loadworkoutListday();
     loadCategory();
+    loadMemberWorkout();
     fetchData();
   }
 
-  Future<void> fetchData() => Future.delayed(Duration(seconds: 4), () {
+  Future<void> fetchData() => Future.delayed(Duration(seconds: 3), () {
     if(workoutList.length != 0){
       ready = true;
       print('user ===> $user');
+      user['Member'] ? isNephmember = 'neph member':isNephmember = 'free member';
     }else{
       fetchData();
     }
@@ -85,7 +88,7 @@ class _HomeState extends State<Home> {
       children: [
         InkWell(
           child: Text(
-            "John Doe",
+            user['Name'],
             style: TextStyle(
               fontFamily: 'Arial',
               fontSize: 36,
@@ -107,7 +110,7 @@ class _HomeState extends State<Home> {
         InkWell(
           child: Padding(padding: EdgeInsets.only(right: 50),
                       child: Text(
-              "free member",
+              isNephmember,
               style: TextStyle(
                 fontFamily: 'Segoe UI',
                 fontSize: 16,
@@ -117,9 +120,10 @@ class _HomeState extends State<Home> {
             ),
           ),
           onTap: () {
-            MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Payment());
-            Navigator.of(context).push(materialPageRoute);
+            if(user['Member'] == false){
+              MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => Payment());
+              Navigator.of(context).push(materialPageRoute);
+            }
           },
         ),
       ],

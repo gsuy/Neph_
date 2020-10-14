@@ -36,15 +36,16 @@ Future<void> signOut()async{
   await firebaseAuth.signOut();
 }
 
-Future<void> createUser(String name,String age,String weight,String height,String gender,String goal,String heal)async{
+Future<void> createUser(String name,String age,String weight,String height,String gender,String heal)async{
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   await firestore.collection("Users").doc(uid).set({
     'Name': name,
+    'Email': email,
     'Age': age,
     'Weight': weight,
     'Height': height,
     'Gender': gender,
-    'Goal': goal,
+    // 'Goal': goal,
     'Health Conditions' : heal,
     'haveSchedule': false,
     'Member' : false,

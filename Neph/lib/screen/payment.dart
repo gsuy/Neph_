@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:neph/screen/backend.dart';
+import 'package:neph/screen/home.dart';
 
 class Payment extends StatefulWidget {
   @override
@@ -23,10 +25,11 @@ class PaymentState extends State<Payment> {
             textAlign: TextAlign.center,
           ),
           onPressed: () {
-            a += 1;
-            // MaterialPageRoute materialPageRoute =
-            //     MaterialPageRoute(builder: (BuildContext context) => Signup());
-            // Navigator.of(context).push(materialPageRoute);
+            updateMember().then((value){
+              ready = false;
+              MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => Home());
+              Navigator.of(context).push(materialPageRoute);
+            });
           },
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0))),

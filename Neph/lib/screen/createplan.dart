@@ -288,14 +288,13 @@ class _CreateplanState extends State<Createplan> {
             workoutListday = new List<List<List<dynamic>>>.from(newWorkoutListday);
             setworkoutListday();
             resetWorkoutlist();
-
+            updatehaveSchedule();
             // workoutListday = new List<List<List<dynamic>>>.from(newWorkoutListday);
             // newWorkoutListday = new List<List<List<dynamic>>>.from(workoutListday);
             // setworkoutListday();
-            Navigator.popUntil(context, (route) => false);
-            MaterialPageRoute materialPageRoute =
-                MaterialPageRoute(builder: (BuildContext context) => Home());
-            Navigator.of(context).push(materialPageRoute);
+            ready = false;
+            MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => Home());
+            Navigator.of(context).pushAndRemoveUntil(materialPageRoute,(Route<dynamic> route) => false);
           },
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0))),
