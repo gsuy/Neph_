@@ -9,6 +9,7 @@ import 'package:neph/screen/profile.dart';
 import 'package:neph/screen/stats.dart';
 import 'package:neph/screen/backend.dart';
 import 'package:neph/screen/auth.dart';
+import 'package:neph/screen/testgraph.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -78,7 +79,7 @@ class _HomeState extends State<Home> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => Profile()));
+                        builder: (BuildContext context) => Crart()));
               }),
         ]);
   }
