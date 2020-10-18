@@ -395,6 +395,7 @@ class _CreatetableState extends State<Createtable> {
           alignment: Alignment.center,
           child: TextField(
             decoration: new InputDecoration(
+              hasFloatingPlaceholder: false,
               filled: true,
               fillColor: Colors.white,
               enabledBorder: new OutlineInputBorder(
