@@ -11,7 +11,7 @@ import 'package:neph/screen/backend.dart';
 import 'package:neph/screen/auth.dart';
 import 'package:neph/screen/testgraph.dart';
 import 'package:adobe_xd/pinned.dart';
-
+  
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -19,6 +19,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String isNephmember = '';
+  
+  
   //Medthod
   @override
   void initState() {
@@ -26,12 +28,18 @@ class _HomeState extends State<Home> {
     id = uid;
     print('Connect Home!!!.');
     print('id ====>>>> $id');
+    loadstats();
     loadUser();
     loadWorkoutList();
     loadworkoutListday();
     loadCategory();
     loadMemberWorkout();
+    loadtitle();
+    //loadcatastats();
     fetchData();
+    
+
+    
   }
 
   Future<void> fetchData() => Future.delayed(Duration(seconds: 3), () {
@@ -76,6 +84,8 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
               ),
               onPressed: () {
+                //loadstats();
+                loadtitle();
                 //allformofweek=[];
                 // autogenfunction();
                 Navigator.push(
@@ -117,7 +127,7 @@ class _HomeState extends State<Home> {
           padding: EdgeInsets.only(left: 20),
           child: Row(
             children: [
-              crown(),
+              if(isNephmember == 'neph member')crown(),
               InkWell(
                 child:  Text(
                     isNephmember,
@@ -300,7 +310,7 @@ class _HomeState extends State<Home> {
                       textAlign: TextAlign.left,
                     ),SizedBox(height: 10,),
                     Text(
-                      (errordata[errordata.length - 1] * 100).toString() + '%',
+                      currenterror + '%',
                       style: TextStyle(
                         fontFamily: 'Segoe UI',
                         fontSize: 35,

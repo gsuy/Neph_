@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:neph/screen/backend.dart';
+import 'package:neph/screen/home.dart';
 import 'package:neph/screen/payment.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 
-  List<double> errordata = [0.5,0.47,0.49,0.43,0.45,0.39,0.4,0.35,0.33,0.37,0.3,0.33,0.25,0.2,0.1];
-  List<double> progressdata = [0.5,0.6,0.7,0.75];
-  List<double> weightdata = [12,12,15,15,14,15,13,17,18];
-  List<double> repsdata = [12,12,12,15,12,15,8,8,8];
-  List<double> setsdata = [3,3,3,3,4,4,3,4,4];
-  List<double> volumn =[];
+  
 class Stats extends StatefulWidget{
   @override
   StatsState createState() => StatsState();
@@ -16,16 +12,18 @@ class Stats extends StatefulWidget{
 
 class StatsState extends State<Stats>{
   
-  var currentprogress;
-  var currenterror;
-  var currentvolumn;
+  var currentprogress=0.0;
+  var currenterror=0.0;
+  var currentvolumn=0.0;
   String isNephmember = '';
    void initState() {
     super.initState();
     user['Member'] ? isNephmember = 'neph member':isNephmember = 'free member';
+    volumn.clear();
     for (int i =0;i<weightdata.length;i++){
         volumn.add(weightdata[i]*repsdata[i]*setsdata[i]);
     }
+    
     currentprogress = progressdata[progressdata.length-1] - progressdata[0];
     currenterror = errordata[errordata.length-1] - errordata[0];
     currentvolumn = volumn[volumn.length-1] - volumn[0];
