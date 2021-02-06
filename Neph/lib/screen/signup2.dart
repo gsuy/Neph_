@@ -70,6 +70,7 @@ class _Signup2State extends State<Signup2> {
           child: new TextField(
             controller: inputName,
             decoration: new InputDecoration(
+              hasFloatingPlaceholder: false,
               filled: true,
               fillColor: Colors.white,
               enabledBorder: new OutlineInputBorder(
@@ -179,8 +180,10 @@ class _Signup2State extends State<Signup2> {
             primaryColorDark: Colors.white,
           ),
           child: new TextField(
+
             controller: inputWeight,
             decoration: new InputDecoration(
+              hasFloatingPlaceholder: false,
               filled: true,
               fillColor: Colors.white,
               enabledBorder: new OutlineInputBorder(
@@ -236,6 +239,7 @@ class _Signup2State extends State<Signup2> {
           child: new TextField(
             controller: inputHeight,
             decoration: new InputDecoration(
+              hasFloatingPlaceholder: false,
               filled: true,
               fillColor: Colors.white,
               enabledBorder: new OutlineInputBorder(
@@ -291,6 +295,7 @@ class _Signup2State extends State<Signup2> {
           child: new TextField(
             controller: inputHealthCon,
             decoration: new InputDecoration(
+              hasFloatingPlaceholder: false,
               filled: true,
               fillColor: Colors.white,
               enabledBorder: new OutlineInputBorder(
@@ -498,6 +503,7 @@ class _Signup2State extends State<Signup2> {
           child: new TextField(
             controller: inputAge,
             decoration: new InputDecoration(
+              hasFloatingPlaceholder: false,
               filled: true,
               fillColor: Colors.white,
               enabledBorder: new OutlineInputBorder(

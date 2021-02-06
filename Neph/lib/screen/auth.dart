@@ -16,11 +16,6 @@ Future<void> register()async{
   .then((res){
     print('Register success for email $email.');
     signIn();
-  })
-  .catchError((onError){
-    String title = onError.code;
-    String err = onError.message;
-    print('title = $title, message = $err');
   });
 }
 

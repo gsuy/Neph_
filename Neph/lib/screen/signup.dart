@@ -27,11 +27,11 @@ class _SignupState extends State<Signup> {
       hint.add('Please fill your password.');
     }
     if(inputPass.text.trim() != '' && confirmPass.text.trim() != '' && inputPass.text.trim() != confirmPass.text.trim()){
-      hint.add('Passwords was different.');
+      hint.add('Please make sure your passwords match.');
     }
 
     if(inputPass.text.trim().length < 6){
-      hint.add('Password must be size not less 6');
+      hint.add('Password validation is at least 6 character');
     }
 
     if(hint.length != 0){
@@ -53,6 +53,7 @@ class _SignupState extends State<Signup> {
             controller: inputEmail,
             decoration: new InputDecoration(
               filled: true,
+              hasFloatingPlaceholder: false,
               fillColor: Colors.white,
               enabledBorder: new OutlineInputBorder(
                   borderSide: new BorderSide(color: Colors.white)),
@@ -78,6 +79,7 @@ class _SignupState extends State<Signup> {
             controller: inputPass,
             decoration: new InputDecoration(
               filled: true,
+              hasFloatingPlaceholder: false,
               fillColor: Colors.white,
               enabledBorder: new OutlineInputBorder(
                   borderSide: new BorderSide(color: Colors.white)),
@@ -103,6 +105,7 @@ class _SignupState extends State<Signup> {
           child: new TextField(
             controller: confirmPass,
             decoration: new InputDecoration(
+              hasFloatingPlaceholder: false,
               filled: true,
               fillColor: Colors.white,
               enabledBorder: new OutlineInputBorder(
@@ -200,6 +203,11 @@ class _SignupState extends State<Signup> {
                 register().then((value){
                   MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => Signup2());
                   Navigator.of(context).push(materialPageRoute);
+                }).catchError((onError){
+                  hint.add('Something was wrong, please try again.');
+                  setState(() {
+
+                  });
                 });
               }
           },

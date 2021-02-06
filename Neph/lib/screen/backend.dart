@@ -1,14 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:neph/screen/stats.dart';
 String id = '';
 List<String> day = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+List<String> part = ['Error','Progress','Reps','Sets','Weight'];
 List<String> categoryAll = ['Back','Biceps Arm','Chest','Leg','Shoulder','Triceps Arm'];
 Map<String,dynamic> user = {'Name':null,'Age':null,'Gender':null,'Height':null,'Weight':null,'haveSchedule':null,'Health Conditions':null,'Member':null,'Email':null};
 List<List<String>> workoutList = [];
 List<List<List<dynamic>>> workoutListday =  [];
 List<List<List<dynamic>>> newWorkoutListday = [];
-
+List<double> all = [];
+List<double> errordata = [];
+  List<double> progressdata =[];
+  List<double> weightdata = [];
+  List<double> repsdata = [];
+  List<double> setsdata = [];
+  List<double> volumn =[];
+  String currenterror ='';
 // List<List<List<dynamic>>>  = [];
 bool ready = false;
 List<bool> isWorkoutDay = [false,false,false,false,false,false,false];
@@ -329,13 +338,108 @@ void autogenfunction(){
     }
     // print('www => $workoutListday');
   }
-
+  void loadtitle(){
+    if(errordata.length == 0 ){
+      currenterror = '0';
+      errordata = [0];
+      progressdata =[0];
+      weightdata = [0];
+      repsdata = [0];
+      setsdata = [0];
+      //volumn =[0];
+      print('cometo zero');
+    }
+    else{print('como onnnnnnnnnnnnnnn');
+      currenterror = (errordata[errordata.length - 1] * 100).toString();}
+  }
+  Future<void> loadstats()async{
+    //all.clear();
+    errordata.clear();
+    progressdata.clear();
+    repsdata.clear();
+    setsdata.clear();
+    weightdata.clear();
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    for (var i = 0; i < part.length; i++) {
+      
+      await firestore.collection('Users').doc(id).collection('Stats').doc(part[i]).get().then((value){ 
+          //List<String> part = ['Error','Progress','Reps','Sets','Weight'];
+          if(part[i] == 'Error'){
+            errordata.add(value.get('day1').toDouble());
+            errordata.add(value.get('day2').toDouble());
+            errordata.add(value.get('day3').toDouble());
+            errordata.add(value.get('day4').toDouble());
+            errordata.add(value.get('day5').toDouble());
+            errordata.add(value.get('day6').toDouble());
+            errordata.add(value.get('day7').toDouble());
+            currenterror = (errordata[errordata.length - 1] * 100).toString();
+            print('Error = $errordata');
+          }else if(part[i] == 'Progress'){
+            
+            progressdata.add(value.get('day1').toDouble());
+            progressdata.add(value.get('day2').toDouble());
+            progressdata.add(value.get('day3').toDouble());
+            progressdata.add(value.get('day4').toDouble());
+            progressdata.add(value.get('day5').toDouble());
+            progressdata.add(value.get('day6').toDouble());
+            progressdata.add(value.get('day7').toDouble());
+            print('Progress = $progressdata');
+          
+          
+          }else if(part[i] == 'Reps'){
+            
+            repsdata.add(value.get('day1').toDouble());
+            repsdata.add(value.get('day2').toDouble());
+            repsdata.add(value.get('day3').toDouble());
+            repsdata.add(value.get('day4').toDouble());
+            repsdata.add(value.get('day5').toDouble());
+            repsdata.add(value.get('day6').toDouble());
+            repsdata.add(value.get('day7').toDouble());
+            print('Reps = $repsdata');
+          
+          }else if(part[i] == 'Sets'){
+            
+            setsdata.add(value.get('day1').toDouble());
+            setsdata.add(value.get('day2').toDouble());
+            setsdata.add(value.get('day3').toDouble());
+            setsdata.add(value.get('day4').toDouble());
+            setsdata.add(value.get('day5').toDouble());
+            setsdata.add(value.get('day6').toDouble());
+            setsdata.add(value.get('day7').toDouble());
+            print('Sets = $setsdata');
+          
+          }else if(part[i] == 'Weight'){
+            
+            weightdata.add(value.get('day1').toDouble());
+            weightdata.add(value.get('day2').toDouble());
+            weightdata.add(value.get('day3').toDouble());
+            weightdata.add(value.get('day4').toDouble());
+            weightdata.add(value.get('day5').toDouble());
+            weightdata.add(value.get('day6').toDouble());
+            weightdata.add(value.get('day7').toDouble());
+            print('Weigth = $weightdata');
+          
+          }
+          
+          
+          // for (var snapshot in snapshots) {
+          //       print('Here ================= ');
+          //       
+          //     }
+          
+        
+        
+      });
+    }
+    //print('all===$all.length');
+    
+  }
   // Future<void> loadisWorkoutDay()async{
   //   for (var i = 0; i < day.length; i++) {
   //     await firestore.collection('Users').doc(id).collection('Schedule').doc(day[i]).get().then((value) => isWorkoutDay[i] = value.get('isWorkout_Day'));
   //   }
   // }
-
+  
   Future<void> loadUser()async{
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     await firestore.collection('Users').doc(id).get().then((value){
